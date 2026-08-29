@@ -23,4 +23,5 @@ Keep all files that must travel with a starter notebook inside its assignment
 directory, except shared course datasets that intentionally live under
 `data/`. Use relative paths for Markdown images. Before publishing a template,
 clear all code-cell outputs and execution counts while preserving any Markdown
-attachments.
+attachments. The maintainer pre-commit hook performs this automatically; see
+[Maintainer workflow](../docs/maintainers.md).

@@ -48,6 +48,65 @@
       }
     },
     {
+      "label": "ISyE 524 Maintainer: Check notebook hygiene",
+      "type": "process",
+      "command": "julia",
+      "args": [
+        "--startup-file=no",
+        "--project=${workspaceFolder}",
+        "${workspaceFolder}/scripts/notebook_hygiene.jl",
+        "--check"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "group": "test",
+      "presentation": {
+        "clear": true,
+        "panel": "shared",
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "ISyE 524 Maintainer: Clean notebook outputs",
+      "type": "process",
+      "command": "julia",
+      "args": [
+        "--startup-file=no",
+        "--project=${workspaceFolder}",
+        "${workspaceFolder}/scripts/notebook_hygiene.jl",
+        "--clean"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "panel": "shared",
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "ISyE 524 Maintainer: Enable pre-commit hook",
+      "type": "process",
+      "command": "julia",
+      "args": [
+        "--startup-file=no",
+        "${workspaceFolder}/scripts/install_hooks.jl"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "panel": "shared",
+        "reveal": "always"
+      }
+    },
+    {
       "label": "ISyE 524: Start an assignment from its template",
       "type": "process",
       "command": "julia",

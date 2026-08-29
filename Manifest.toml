@@ -2,7 +2,7 @@
 
 julia_version = "1.12.7"
 manifest_format = "2.0"
-project_hash = "cef4efc9b6734751d9a865cc396b711a1c3578ee"
+project_hash = "045f6f66d10bd025ae5addf7f869ef34c9497517"
 
 [[deps.ASL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]

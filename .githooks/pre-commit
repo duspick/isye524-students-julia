@@ -1,0 +1,4 @@
+#!/bin/sh
+repository_root=$(git rev-parse --show-toplevel) || exit 1
+cd "$repository_root" || exit 1
+exec julia --startup-file=no --project=. scripts/precommit_notebooks.jl

@@ -80,6 +80,9 @@ The course environment includes:
 - Distributions and MathOptInterface for selected course material
 - Printf from Julia's standard library for formatted output
 
+JSON is also included for the repository's notebook-cleaning tools; students do
+not need to use it in course notebooks.
+
 Commercial solvers such as Gurobi and Mosek are intentionally not required by
 the standard student environment.
 
@@ -155,4 +158,5 @@ the corresponding `Manifest.toml` change and verify the environment before
 publishing it to students.
 
 See [Assignment templates](assignments/README.md) before publishing a new
-starter notebook.
+starter notebook. See [Maintainer workflow](docs/maintainers.md) to enable the
+notebook-cleaning hook and run the same checks enforced by GitHub Actions.
