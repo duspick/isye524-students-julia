@@ -1,0 +1,25 @@
+# Julia-generated coverage and allocation files
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+
+# Jupyter working files
+.ipynb_checkpoints/
+.jupyter_cache/
+
+# Quarto working files and generated submissions
+.quarto/
+submissions/
+
+# Local Python environments are not part of the course environment
+.venv/
+venv/
+
+# Temporary working directories
+tmp/
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+
+# VS Code configuration is intentionally tracked in this repository.
