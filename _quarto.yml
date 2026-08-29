@@ -1,0 +1,12 @@
+project:
+  type: default
+  output-dir: submissions
+
+format:
+  pdf:
+    papersize: letter
+    geometry:
+      - margin=1in
+
+execute:
+  enabled: false

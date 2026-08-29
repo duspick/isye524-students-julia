@@ -16,6 +16,11 @@ end
 function main()
     check_julia_version()
 
+    student_work = joinpath(REPOSITORY_ROOT, "student-work")
+    submissions = joinpath(REPOSITORY_ROOT, "submissions")
+    mkpath(student_work)
+    mkpath(submissions)
+
     println("ISyE 524 repository: ", REPOSITORY_ROOT)
     println("Julia version: ", VERSION)
     println("Activating the course environment...")
@@ -27,6 +32,8 @@ function main()
     println()
     println("ISyE 524 Julia environment is ready.")
     println("Active project: ", Base.active_project())
+    println("Student work: ", student_work)
+    println("PDF submissions: ", submissions)
 end
 
 main()

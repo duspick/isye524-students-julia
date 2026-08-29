@@ -48,6 +48,103 @@
       }
     },
     {
+      "label": "ISyE 524: Start an assignment from its template",
+      "type": "process",
+      "command": "julia",
+      "args": [
+        "--startup-file=no",
+        "--project=${workspaceFolder}",
+        "${workspaceFolder}/scripts/start_assignment.jl",
+        "${input:assignmentId}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "panel": "shared",
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "ISyE 524: Check PDF export tools",
+      "type": "process",
+      "command": "quarto",
+      "args": [
+        "check",
+        "install"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "panel": "shared",
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "ISyE 524: Install Quarto-managed TinyTeX (optional)",
+      "type": "process",
+      "command": "quarto",
+      "args": [
+        "install",
+        "tinytex"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "panel": "shared",
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "ISyE 524: Export active notebook to PDF (TinyTeX)",
+      "type": "process",
+      "command": "julia",
+      "args": [
+        "--startup-file=no",
+        "--project=${workspaceFolder}",
+        "${workspaceFolder}/scripts/export_pdf.jl",
+        "${file}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "panel": "shared",
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "ISyE 524: Export active notebook to PDF (system TeX)",
+      "type": "process",
+      "command": "julia",
+      "args": [
+        "--startup-file=no",
+        "--project=${workspaceFolder}",
+        "${workspaceFolder}/scripts/export_pdf.jl",
+        "--system-tex",
+        "${file}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "panel": "shared",
+        "reveal": "always"
+      }
+    },
+    {
       "label": "ISyE 524: Pull latest course files",
       "type": "process",
       "command": "julia",
@@ -73,6 +170,14 @@
         "ISyE 524: Set up / refresh Julia environment"
       ],
       "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "assignmentId",
+      "type": "promptString",
+      "description": "Assignment name supplied by the instructor (for example, hw01)",
+      "default": "hw01"
     }
   ]
 }

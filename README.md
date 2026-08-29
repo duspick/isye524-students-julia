@@ -5,8 +5,8 @@ intended to give every student the same Julia, JuMP, solver, data, plotting,
 notebook, and PDF-export workflow.
 
 The repository is currently being assembled. The Julia environment, VS Code
-integration, and installation checks are ready. Example notebooks and
-Gradescope PDF export will be added in subsequent reviewed checkpoints.
+integration, installation checks, and Gradescope PDF export are ready. Example
+notebooks will be added in subsequent reviewed checkpoints.
 
 ## Supported Julia version
 
@@ -30,6 +30,14 @@ The equivalent terminal command is:
 ```text
 julia --startup-file=no --project=. scripts/setup.jl
 ```
+
+In addition to installing the Julia packages, setup creates two local folders:
+
+- `student-work/` for personal assignment copies
+- `submissions/` for generated Gradescope PDFs
+
+Both folders are excluded from Git. Course updates therefore do not overwrite
+student answers, but students must keep a separate backup of `student-work/`.
 
 `Project.toml` lists the course's direct dependencies. `Manifest.toml` records
 the complete, tested dependency graph. Do not use `Pkg.add` from an individual
@@ -75,6 +83,29 @@ The course environment includes:
 Commercial solvers such as Gurobi and Mosek are intentionally not required by
 the standard student environment.
 
+## Starting an assignment
+
+Instructor templates are published in a separate folder for each assignment,
+such as `assignments/hw01/`. Do not edit the tracked template directly. After
+pulling the latest course files, run this VS Code task:
+
+```text
+ISyE 524: Start an assignment from its template
+```
+
+Enter the assignment name supplied by the instructor, such as `hw01`. The task
+copies the complete template to `student-work/hw01/` and refuses to overwrite
+an existing student copy. Work only in the new `student-work/` folder.
+
+The equivalent terminal command is:
+
+```text
+julia --startup-file=no --project=. scripts/start_assignment.jl hw01
+```
+
+See [Working on assignments](docs/assignments.md) for the full workflow,
+including handwritten images and backup guidance.
+
 ## Keeping course files current
 
 As new course material is published, open `Tasks: Run Task` and run:
@@ -84,35 +115,44 @@ ISyE 524: Update course repository
 ```
 
 This task performs a fast-forward-only Git pull and then refreshes the Julia
-environment. Students may keep local edits to course notebooks: newly added or
-unrelated course files can still be pulled. If a course update changes the same
-file a student edited, Git stops instead of overwriting the local work. The task
-never resets or automatically stashes student files.
+environment. Work under `student-work/` is ignored by Git and is unaffected.
+If a student edits a tracked course file and an update changes the same file,
+Git stops instead of overwriting it. The task never resets or automatically
+stashes student files.
 
-## Planned PDF workflow
+## Exporting assignments to PDF
 
-Students will work in Jupyter notebooks inside VS Code. A subsequent checkpoint
-will add Gradescope PDF export tasks.
+Assignments are exported from saved Jupyter notebooks with Quarto. Install
+[Quarto](https://quarto.org/docs/download/), then use the repository's VS Code
+tasks to check the PDF tools and export the active notebook. Generated PDFs are
+placed in `submissions/` for review before uploading to Gradescope.
 
-PDF export will use Quarto. Students without an existing TeX installation will
-be able to use Quarto-managed TinyTeX without adding it to the system `PATH`.
-Students who already maintain TeX Live, MacTeX, or MiKTeX will be able to use
-their existing installation instead.
+Students without TeX can explicitly install Quarto-managed TinyTeX without
+adding it to the system `PATH`. Students who already maintain TeX Live, MacTeX,
+or MiKTeX can select the separate system-TeX export task. The system-TeX task
+disables Quarto's TinyTeX selection and automatic package installation.
+
+See [Exporting a notebook to PDF](docs/pdf-export.md) for installation,
+export, system-TeX, and troubleshooting instructions.
 
 ## Repository layout
 
 ```text
-data/        Data files used by notebooks
-notebooks/   Course notebooks
-scripts/     Setup and export helpers
-test/        Environment and notebook smoke tests
+assignments/   Instructor-published assignment templates
+data/          Shared data files used by notebooks
+docs/          Student and maintainer instructions
+notebooks/     Course notebooks and installation checks
+scripts/       Setup, assignment, update, and export helpers
+student-work/  Personal assignment copies; generated and ignored by Git
+submissions/   Generated Gradescope PDFs; ignored by Git
+test/          Environment and notebook smoke tests
 ```
-
-Generated assignment PDFs and LaTeX intermediates will go in `submissions/`,
-which is intentionally excluded from Git.
 
 ## For course maintainers
 
 Changes to `Project.toml` must be made through Julia's package manager. Commit
 the corresponding `Manifest.toml` change and verify the environment before
 publishing it to students.
+
+See [Assignment templates](assignments/README.md) before publishing a new
+starter notebook.
