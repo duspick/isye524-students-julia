@@ -4,9 +4,9 @@ This repository provides the supported Julia environment for ISyE 524. It is
 intended to give every student the same Julia, JuMP, solver, data, plotting,
 notebook, and PDF-export workflow.
 
-The repository is currently being assembled. The Julia environment is ready;
-VS Code integration, setup checks, example notebooks, and Gradescope PDF export
-will be added in subsequent reviewed checkpoints.
+The repository is currently being assembled. The Julia environment, VS Code
+integration, and installation checks are ready. Example notebooks and
+Gradescope PDF export will be added in subsequent reviewed checkpoints.
 
 ## Supported Julia version
 
@@ -35,6 +35,33 @@ julia --startup-file=no --project=. scripts/setup.jl
 the complete, tested dependency graph. Do not use `Pkg.add` from an individual
 course notebook.
 
+## Checking the installation
+
+Open [notebooks/00-check-installation.ipynb](notebooks/00-check-installation.ipynb)
+in VS Code. If prompted for a notebook kernel, select Julia 1.12, then choose
+**Run All**. A successful run displays:
+
+- the active Julia version and course project
+- the optimal solution `(x, y) = (3.6, 2.8)` and objective value `22.0`
+- a two-row results table
+- a plot of the feasible region and optimal solution
+
+The notebook also contains Markdown mathematics so students can confirm that
+equations render in VS Code. Its outputs are intentionally cleared in Git; your
+local outputs do not need to be committed.
+
+For a quicker command-line check, run this VS Code task:
+
+```text
+ISyE 524: Run environment check
+```
+
+The equivalent terminal command is:
+
+```text
+julia --startup-file=no --project=. test/smoke.jl
+```
+
 ## Included Julia packages
 
 The course environment includes:
@@ -62,10 +89,10 @@ unrelated course files can still be pulled. If a course update changes the same
 file a student edited, Git stops instead of overwriting the local work. The task
 never resets or automatically stashes student files.
 
-## Planned notebook and PDF workflow
+## Planned PDF workflow
 
-Students will work in Jupyter notebooks inside VS Code. Subsequent checkpoints
-will add an installation-check notebook and Gradescope PDF export tasks.
+Students will work in Jupyter notebooks inside VS Code. A subsequent checkpoint
+will add Gradescope PDF export tasks.
 
 PDF export will use Quarto. Students without an existing TeX installation will
 be able to use Quarto-managed TinyTeX without adding it to the system `PATH`.
