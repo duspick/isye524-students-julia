@@ -14,10 +14,21 @@ Use Julia 1.12, installed with
 [Juliaup](https://julialang.org/downloads/). The environment accepts Julia
 1.12 patch releases and was initially generated with Julia 1.12.7.
 
-After cloning this repository, open a terminal in the repository root and run:
+After cloning this repository, open the repository root in VS Code. When VS
+Code offers to install the workspace's recommended extensions, accept the
+recommendation. The repository recommends the Julia, Jupyter, and Quarto
+extensions.
+
+Open the Command Palette, select `Tasks: Run Task`, and run:
 
 ```text
-julia --project=. -e "using Pkg; Pkg.instantiate()"
+ISyE 524: Set up / refresh Julia environment
+```
+
+The equivalent terminal command is:
+
+```text
+julia --startup-file=no --project=. scripts/setup.jl
 ```
 
 `Project.toml` lists the course's direct dependencies. `Manifest.toml` records
@@ -37,11 +48,24 @@ The course environment includes:
 Commercial solvers such as Gurobi and Mosek are intentionally not required by
 the standard student environment.
 
-## Planned student workflow
+## Keeping course files current
 
-Students will work in Jupyter notebooks inside VS Code. Repository-provided VS
-Code tasks will set up the Julia environment, check the installation, and
-export completed notebooks to PDF for Gradescope.
+As new course material is published, open `Tasks: Run Task` and run:
+
+```text
+ISyE 524: Update course repository
+```
+
+This task performs a fast-forward-only Git pull and then refreshes the Julia
+environment. Students may keep local edits to course notebooks: newly added or
+unrelated course files can still be pulled. If a course update changes the same
+file a student edited, Git stops instead of overwriting the local work. The task
+never resets or automatically stashes student files.
+
+## Planned notebook and PDF workflow
+
+Students will work in Jupyter notebooks inside VS Code. Subsequent checkpoints
+will add an installation-check notebook and Gradescope PDF export tasks.
 
 PDF export will use Quarto. Students without an existing TeX installation will
 be able to use Quarto-managed TinyTeX without adding it to the system `PATH`.

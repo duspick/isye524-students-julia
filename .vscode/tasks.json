@@ -1,0 +1,55 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ISyE 524: Set up / refresh Julia environment",
+      "type": "process",
+      "command": "julia",
+      "args": [
+        "--startup-file=no",
+        "--project=${workspaceFolder}",
+        "${workspaceFolder}/scripts/setup.jl"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "clear": true,
+        "panel": "shared",
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "ISyE 524: Pull latest course files",
+      "type": "process",
+      "command": "julia",
+      "args": [
+        "--startup-file=no",
+        "${workspaceFolder}/scripts/pull.jl"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "panel": "shared",
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "ISyE 524: Update course repository",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "ISyE 524: Pull latest course files",
+        "ISyE 524: Set up / refresh Julia environment"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "julia.additionalArgs": [
+    "--startup-file=no"
+  ],
+  "julia.environmentPath": "${workspaceFolder}"
+}
