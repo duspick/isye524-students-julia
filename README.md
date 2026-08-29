@@ -8,16 +8,27 @@ The repository is currently being assembled. The Julia environment, VS Code
 integration, installation checks, and Gradescope PDF export are ready. Example
 notebooks will be added in subsequent reviewed checkpoints.
 
+## Installation
+
+Before running any VS Code task, follow the complete
+[installation instructions](docs/installation.md). They cover Git, Julia 1.12,
+VS Code, native Windows versus WSL, Quarto, PDF support, and verification in
+the order students should perform them. Existing local Git, Julia, and LaTeX
+installations are supported when their command-line checks pass inside VS Code.
+
+The installation guide is a Markdown document, not Julia code. Do not execute
+the guide in a Julia REPL. Run its boxed commands in a VS Code terminal, and use
+the named VS Code tasks for course setup and checks.
+
 ## Supported Julia version
 
-Use Julia 1.12, installed with
-[Juliaup](https://julialang.org/downloads/). The environment accepts Julia
-1.12 patch releases and was initially generated with Julia 1.12.7.
+Use Julia 1.12, preferably installed with
+[Juliaup](https://julialang.org/downloads/). An existing Julia installation is
+also supported when its `julia` command is on `PATH`. The environment accepts
+Julia 1.12 patch releases and was initially generated with Julia 1.12.7.
 
-After cloning this repository, open the repository root in VS Code. When VS
-Code offers to install the workspace's recommended extensions, accept the
-recommendation. The repository recommends the Julia, Jupyter, and Quarto
-extensions.
+After completing the installation guide, open the repository root in VS Code.
+The repository recommends the Julia, Jupyter, and Quarto extensions.
 
 Open the Command Palette, select `Tasks: Run Task`, and run:
 

@@ -129,10 +129,11 @@
     {
       "label": "ISyE 524: Check PDF export tools",
       "type": "process",
-      "command": "quarto",
+      "command": "julia",
       "args": [
-        "check",
-        "install"
+        "--startup-file=no",
+        "--project=${workspaceFolder}",
+        "${workspaceFolder}/scripts/check_pdf_tools.jl"
       ],
       "options": {
         "cwd": "${workspaceFolder}"

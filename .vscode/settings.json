@@ -2,5 +2,8 @@
   "julia.additionalArgs": [
     "--startup-file=no"
   ],
-  "julia.environmentPath": "${workspaceFolder}"
+  "julia.environmentPath": "${workspaceFolder}",
+  "workbench.editorAssociations": {
+    "*.md": "vscode.markdown.preview.editor"
+  }
 }

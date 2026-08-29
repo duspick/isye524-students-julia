@@ -1,8 +1,9 @@
 # Maintainer workflow
 
 Only course maintainers should commit changes to tracked course files. Before
-working on notebooks, run the standard repository setup task so the Julia
-environment is available.
+working on notebooks, complete the [installation instructions](installation.md)
+and run the standard repository setup task so the Julia environment is
+available.
 
 ## Enable the pre-commit safeguard
 

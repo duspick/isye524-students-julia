@@ -4,12 +4,25 @@ Assignments are submitted to Gradescope as PDF files. The repository uses
 Quarto to convert a saved Jupyter notebook, including its Markdown mathematics
 and saved cell results, into a PDF.
 
+Complete the [student installation guide](installation.md) first. It provides
+the ordered Quarto and LaTeX installation choices; this page describes the
+regular assignment-export workflow.
+
 ## 1. Install Quarto
 
-Install the current release of [Quarto](https://quarto.org/docs/download/) for
-your operating system. The Quarto VS Code extension does not replace the Quarto
-command-line program. Restart VS Code after installation so its terminal and
-tasks can find the `quarto` command.
+Use the operating-system-specific commands in
+[Step 8 of the installation guide](installation.md#8-install-quarto). The
+Quarto VS Code extension does not replace the Quarto command-line program.
+Restart VS Code after installation so its terminal and tasks can find the
+`quarto` command.
+
+In WSL, install the Linux build of Quarto and TinyTeX inside WSL and open the
+repository in a **WSL** VS Code window. Installing either tool only on Windows
+does not make it available to a WSL task.
+
+A local or system LaTeX installation does not replace Quarto. Quarto converts
+the saved notebook to LaTeX input and coordinates the render; LaTeX performs
+the final typesetting into PDF.
 
 Open the Command Palette, select **Tasks: Run Task**, and run:
 
@@ -44,7 +57,9 @@ If you already maintain a TeX installation, you do not need TinyTeX. Use the
 system-TeX export task described below. It passes `latex-tinytex: false` to
 Quarto and disables Quarto's automatic LaTeX-package installation, so Quarto
 does not select or modify its managed TinyTeX installation. Install any missing
-packages through your existing TeX distribution's normal package manager.
+packages through your existing TeX distribution's normal package manager. The
+`lualatex --version` command must work in the VS Code integrated terminal; this
+also supports a user-local TeX installation that is on `PATH`.
 
 ## 3. Export the assignment
 
@@ -76,6 +91,12 @@ The export uses the notebook's saved outputs and does not re-run its code. The
 PDF is written to `submissions/` at the repository root. This directory is
 excluded from Git.
 
+Quarto reads the saved `.ipynb`, converts its Markdown and saved cell output
+through its bundled document tools, and asks LaTeX to create the final PDF. In
+WSL this entire pipeline runs as Linux processes; no Windows-side Quarto,
+Julia, or LaTeX process is involved. Because the course export passes
+`--no-execute`, Julia is not started during PDF export.
+
 Open the generated PDF and check every page before uploading it to Gradescope.
 In particular, verify that equations, tables, plots, long lines, and page breaks
 are readable and that no requested output is missing.
@@ -97,7 +118,8 @@ julia --startup-file=no --project=. scripts/export_pdf.jl --system-tex student-w
 ## Troubleshooting
 
 - If VS Code reports that `quarto` was not found, install Quarto and restart VS
-  Code completely.
+  Code completely. In WSL, confirm that `which quarto` reports a Linux path and
+  that the lower-left corner of VS Code says **WSL**.
 - Run `ISyE 524: Check PDF export tools` to see the Quarto and LaTeX paths in
   use.
 - If the PDF omits results or plots, run all notebook cells and save the
