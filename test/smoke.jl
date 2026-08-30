@@ -14,10 +14,6 @@ import MathOptInterface as MOI
 
 const REPOSITORY_ROOT = dirname(@__DIR__)
 
-module AssignmentWorkspace
-include(joinpath(@__DIR__, "..", "scripts", "start_assignment.jl"))
-end
-
 @testset "ISyE 524 Julia environment" begin
     @test VERSION.major == 1
     @test VERSION.minor == 12
@@ -60,18 +56,4 @@ end
         value(y),
         objective_value(model),
     )
-end
-
-@testset "Assignment workspace" begin
-    mktempdir() do repository
-        source = joinpath(repository, "assignments", "hw01")
-        mkpath(joinpath(source, "images"))
-        write(joinpath(source, "hw01.ipynb"), "starter notebook")
-        write(joinpath(source, "images", "model.png"), "starter image")
-
-        destination = AssignmentWorkspace.start_assignment(repository, "hw01")
-        @test read(joinpath(destination, "hw01.ipynb"), String) == "starter notebook"
-        @test read(joinpath(destination, "images", "model.png"), String) == "starter image"
-        @test_throws ErrorException AssignmentWorkspace.start_assignment(repository, "hw01")
-    end
 end

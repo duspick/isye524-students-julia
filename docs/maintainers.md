@@ -69,6 +69,10 @@ The `Repository checks` workflow runs on every push and pull request. It:
 5. executes the code cells supplied in assignment starter notebooks; and
 6. runs the Julia environment and assignment-copy smoke tests.
 
+A separate lightweight job tests the assignment-copy and PDF-command helpers
+on Ubuntu, macOS, and Windows without installing the full Julia package
+environment on every runner.
+
 The workflow never cleans and commits files on GitHub. A failing notebook check
 must be corrected locally and pushed again. In the repository-protection
 checkpoint, its `Julia 1.12 environment and clean notebooks` job will become a

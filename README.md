@@ -4,11 +4,12 @@ This repository provides the supported Julia environment for ISyE 524. It is
 intended to give every student the same Julia, JuMP, solver, data, plotting,
 notebook, and PDF-export workflow.
 
-The repository is currently being assembled. The Julia environment, VS Code
-integration, installation checks, Gradescope PDF export, and Homework 0 starter
-material are ready. The first class example develops the Top Brass linear
-program. Additional course notebooks and assignments will be added in
-subsequent reviewed checkpoints.
+The repository is a work-in-progress and will evolve as the semester evolves.
+The Julia environment, VS Code integration, installation checks, Gradescope PDF
+export, and Homework 0 starter material are ready. The first class example
+develops the Top Brass linear program. Additional course notebooks and
+assignments will be added throughout the semester, and students will be
+required to update the repository.
 
 ## Installation
 

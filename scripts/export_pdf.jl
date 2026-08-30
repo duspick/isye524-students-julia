@@ -83,6 +83,33 @@ function require_quarto_tinytex()
     )
 end
 
+function quarto_arguments(quarto, notebook, output_name, use_system_tex)
+    arguments = String[
+        quarto,
+        "render",
+        notebook,
+        "--to",
+        "pdf",
+        "--output",
+        output_name,
+        "--output-dir",
+        SUBMISSIONS_DIR,
+        "--metadata",
+        "monofont:TeX Gyre Cursor",
+        "--no-execute",
+    ]
+
+    if use_system_tex
+        append!(arguments, [
+            "--metadata",
+            "latex-tinytex:false",
+            "--metadata",
+            "latex-auto-install:false",
+        ])
+    end
+    return arguments
+end
+
 function main(arguments)
     notebook, use_system_tex = parse_arguments(arguments)
 
@@ -97,30 +124,7 @@ function main(arguments)
 
     mkpath(SUBMISSIONS_DIR)
     output_name = replace(basename(notebook), r"\.ipynb$"i => ".pdf")
-    latex_output_dir = relpath(SUBMISSIONS_DIR, dirname(notebook))
-    arguments = String[
-        quarto,
-        "render",
-        notebook,
-        "--to",
-        "pdf",
-        "--output",
-        output_name,
-        "--output-dir",
-        SUBMISSIONS_DIR,
-        "--metadata",
-        "latex-output-dir:$(latex_output_dir)",
-        "--no-execute",
-    ]
-
-    if use_system_tex
-        append!(arguments, [
-            "--metadata",
-            "latex-tinytex:false",
-            "--metadata",
-            "latex-auto-install:false",
-        ])
-    end
+    arguments = quarto_arguments(quarto, notebook, output_name, use_system_tex)
 
     tex_description = if use_system_tex
         "system TeX (automatic package installation disabled)"
@@ -136,4 +140,6 @@ function main(arguments)
     println("Open the PDF and check every page before uploading it to Gradescope.")
 end
 
-main(ARGS)
+if abspath(PROGRAM_FILE) == @__FILE__
+    main(ARGS)
+end
