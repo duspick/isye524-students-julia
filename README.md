@@ -6,8 +6,9 @@ notebook, and PDF-export workflow.
 
 The repository is currently being assembled. The Julia environment, VS Code
 integration, installation checks, Gradescope PDF export, and Homework 0 starter
-material are ready. Additional course notebooks and assignments will be added
-in subsequent reviewed checkpoints.
+material are ready. The first class example develops the Top Brass linear
+program. Additional course notebooks and assignments will be added in
+subsequent reviewed checkpoints.
 
 ## Installation
 
@@ -81,6 +82,17 @@ The equivalent terminal command is:
 ```text
 julia --startup-file=no --project=. test/smoke.jl
 ```
+
+## Class examples
+
+After the installation check, open
+[notebooks/01-TopBrass-Intro.ipynb](notebooks/01-TopBrass-Intro.ipynb) and select
+**Run All**. The notebook formulates the Top Brass production-planning LP in
+JuMP, solves it with HiGHS, checks for an optimal termination status, and
+interprets the solution.
+
+Files under `notebooks/` are read-only course examples. Students should run and
+study them but should not save personal work in those tracked files.
 
 ## Included Julia packages
 

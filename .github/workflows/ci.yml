@@ -43,6 +43,9 @@ jobs:
       - name: Test notebook cleaning and attachment preservation
         run: julia --startup-file=no --project=. test/notebook_hygiene.jl
 
+      - name: Execute class example notebooks
+        run: julia --startup-file=no --project=. test/example_notebooks.jl
+
       - name: Execute assignment starter notebooks
         run: julia --startup-file=no --project=. test/assignment_notebooks.jl
 
