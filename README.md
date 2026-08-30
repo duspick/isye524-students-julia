@@ -5,8 +5,9 @@ intended to give every student the same Julia, JuMP, solver, data, plotting,
 notebook, and PDF-export workflow.
 
 The repository is currently being assembled. The Julia environment, VS Code
-integration, installation checks, and Gradescope PDF export are ready. Example
-notebooks will be added in subsequent reviewed checkpoints.
+integration, installation checks, Gradescope PDF export, and Homework 0 starter
+material are ready. Additional course notebooks and assignments will be added
+in subsequent reviewed checkpoints.
 
 ## Installation
 
@@ -100,22 +101,26 @@ the standard student environment.
 ## Starting an assignment
 
 Instructor templates are published in a separate folder for each assignment,
-such as `assignments/hw01/`. Do not edit the tracked template directly. After
+such as `assignments/hw0/`. Do not edit the tracked template directly. After
 pulling the latest course files, run this VS Code task:
 
 ```text
 ISyE 524: Start an assignment from its template
 ```
 
-Enter the assignment name supplied by the instructor, such as `hw01`. The task
-copies the complete template to `student-work/hw01/` and refuses to overwrite
+Enter the assignment name supplied by the instructor, such as `hw0`. The task
+copies the complete template to `student-work/hw0/` and refuses to overwrite
 an existing student copy. Work only in the new `student-work/` folder.
 
 The equivalent terminal command is:
 
 ```text
-julia --startup-file=no --project=. scripts/start_assignment.jl hw01
+julia --startup-file=no --project=. scripts/start_assignment.jl hw0
 ```
+
+The first published assignment is `hw0`. Its template contains a Julia tutorial
+and the Homework 0 exercises; see
+[Homework 0: Julia and JuMP setup](assignments/hw0/README.md).
 
 See [Working on assignments](docs/assignments.md) for the full workflow,
 including handwritten images and backup guidance.
