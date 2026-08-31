@@ -1,5 +1,10 @@
 # Assignment templates
 
+This page is for course maintainers who publish assignment templates. Students
+should not edit anything under `assignments/`; students should follow
+[Assignments and PDF Submission](../docs/canvas-assignment-workflow.md) to make
+and use a personal copy under `student-work/`.
+
 Each published assignment gets its own tracked directory with a stable,
 lowercase identifier such as `hw01`:
 
@@ -21,7 +26,16 @@ assignment identifier: `assignments/hw01/hw01.ipynb` exports as
 
 Keep all files that must travel with a starter notebook inside its assignment
 directory, except shared course datasets that intentionally live under
-`data/`. Use relative paths for Markdown images. Before publishing a template,
-clear all code-cell outputs and execution counts while preserving any Markdown
-attachments. The maintainer pre-commit hook performs this automatically; see
-[Maintainer workflow](../docs/maintainers.md).
+`data/`. Use relative paths for Markdown images.
+
+Each assignment-specific `README.md` should:
+
+- briefly identify the included files and which file students submit;
+- link to [Assignments and PDF Submission](../docs/canvas-assignment-workflow.md)
+  for the standard update, copy, export, and backup workflow; and
+- describe only requirements that are special to that assignment.
+
+Before publishing a template, clear all code-cell outputs and execution counts
+while preserving any Markdown attachments. Test the complete student copy and
+PDF-export path. The maintainer pre-commit hook performs notebook cleaning
+automatically; see [Maintainer workflow](../docs/maintainers.md).

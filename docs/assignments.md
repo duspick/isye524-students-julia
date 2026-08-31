@@ -1,4 +1,9 @@
-# Working on assignments
+# Assignment files, images, and backups
+
+Follow [Assignments and PDF Submission](canvas-assignment-workflow.md) for the
+standard update, assignment-copy, notebook, export, and submission sequence.
+This page provides additional detail about how course files are separated, how
+to include images, and how to protect your work.
 
 The repository separates instructor-published templates from student work:
 
@@ -23,10 +28,14 @@ Then run:
 ISyE 524: Start an assignment from its template
 ```
 
-Enter the assignment name announced by the instructor, such as `hw01`. The task
-copies the complete `assignments/hw01/` directory to `student-work/hw01/` and
-prints the notebook path to open. The task refuses to overwrite an existing
-student-work directory.
+Enter the assignment name announced by the instructor. For Homework 0, enter
+`hw00`. The task copies the complete `assignments/hw00/` directory to
+`student-work/hw00/` and prints the notebook path to open. The task refuses to
+overwrite an existing student-work directory.
+
+If the task says that student work already exists, nothing was lost or
+overwritten. Open the existing assignment folder under `student-work/` and
+continue there.
 
 Do not work directly in `assignments/`. Keeping that tracked template unchanged
 allows later course updates to arrive without conflicting with your answers.
@@ -34,7 +43,7 @@ allows later course updates to arrive without conflicting with your answers.
 The equivalent terminal command is:
 
 ```text
-julia --startup-file=no --project=. scripts/start_assignment.jl hw01
+julia --startup-file=no --project=. scripts/start_assignment.jl hw00
 ```
 
 ## Images and handwritten work
@@ -61,8 +70,8 @@ For several large images, create an `images/` directory beside the working
 notebook instead:
 
 ```text
-student-work/hw01/
-├── hw01.ipynb
+student-work/hw00/
+├── hw00.ipynb
 └── images/
     └── model.png
 ```
@@ -74,7 +83,9 @@ Reference the image from a Markdown cell with a path relative to the notebook:
 ```
 
 Both forms are included by the repository's Quarto PDF export workflow without
-additional Julia packages.
+additional Julia packages. See
+[Exporting a notebook to PDF](pdf-export.md) if an image is missing from the
+generated PDF.
 
 ## Back up student work
 

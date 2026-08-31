@@ -4,6 +4,10 @@ Assignments are submitted to Gradescope as PDF files. The repository uses
 Quarto to convert a saved Jupyter notebook, including its Markdown mathematics
 and saved cell results, into a PDF.
 
+Use [Assignments and PDF Submission](canvas-assignment-workflow.md) for the
+normal assignment sequence. This page provides the detailed PDF installation,
+export, and troubleshooting reference.
+
 Complete the [student installation guide](installation.md) first. It provides
 the ordered Quarto and LaTeX installation choices; this page describes the
 regular assignment-export workflow.
@@ -64,13 +68,14 @@ also supports a user-local TeX installation that is on `PATH`.
 ## 3. Export the assignment
 
 Work from the personal notebook created under `student-work/`, not the tracked
-template under `assignments/`. For example, the `hw01` notebook should be
-`student-work/hw01/hw01.ipynb`; exporting it creates `submissions/hw01.pdf`.
+template under `assignments/`. For Homework 0, the working notebook is
+`student-work/hw00/hw00.ipynb`; exporting it creates `submissions/hw00.pdf`.
 
 Handwritten models can be inserted as Markdown-cell attachments or referenced
 from an `images/` directory beside the notebook. See
-[Working on assignments](assignments.md#images-and-handwritten-work) for the
-image workflow. Neither method requires another Julia package or export tool.
+[Assignment files, images, and backups](assignments.md#images-and-handwritten-work)
+for the image workflow. Neither method requires another Julia package or
+export tool.
 
 Before exporting:
 
@@ -106,13 +111,13 @@ are readable and that no requested output is missing.
 For Quarto-managed TinyTeX:
 
 ```text
-julia --startup-file=no --project=. scripts/export_pdf.jl student-work/hw01/hw01.ipynb
+julia --startup-file=no --project=. scripts/export_pdf.jl student-work/hw00/hw00.ipynb
 ```
 
 For an existing system TeX installation:
 
 ```text
-julia --startup-file=no --project=. scripts/export_pdf.jl --system-tex student-work/hw01/hw01.ipynb
+julia --startup-file=no --project=. scripts/export_pdf.jl --system-tex student-work/hw00/hw00.ipynb
 ```
 
 ## Troubleshooting

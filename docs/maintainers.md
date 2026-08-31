@@ -5,6 +5,11 @@ working on notebooks, complete the [installation instructions](installation.md)
 and run the standard repository setup task so the Julia environment is
 available.
 
+Before publishing an assignment, also follow the
+[assignment-template guidance](../assignments/README.md). Each assignment
+README should direct students to the central
+[Assignments and PDF Submission](canvas-assignment-workflow.md) workflow.
+
 ## Enable the pre-commit safeguard
 
 Git does not enable repository-provided hooks automatically. In each maintainer

@@ -16,20 +16,20 @@ Choose one of the following paths before installing anything.
 You may use either native Windows or Windows Subsystem for Linux (WSL). Do not
 mix the two environments.
 
-- **Native Windows:** install the Windows versions of Git, Julia, VS Code, and
-  Quarto. Open the repository in a normal VS Code window.
-- **WSL:** install VS Code on Windows and use its WSL extension. Install Git,
-  Julia, and Quarto inside your Linux distribution, clone the repository from
-  a WSL terminal, and open it in a VS Code window whose lower-left corner says
-  **WSL**.
+- **Native Windows:** install and run the Windows versions of the required
+  command-line programs. Open the repository in a normal VS Code window.
+- **WSL:** install VS Code on Windows and use its WSL extension. Install and run
+  the required command-line programs inside your Linux distribution. Clone the
+  repository from a WSL terminal and open it in a VS Code window whose
+  lower-left corner says **WSL**.
 
 Follow the Windows or WSL sections of the
 [complete installation guide](https://github.com/jlinderoth/isye524-students-julia/blob/main/docs/installation.md).
 
 ### macOS
 
-Install or verify Git, Julia 1.12, and VS Code. Then follow the macOS sections
-of the
+Use the macOS versions of the required programs. Follow the macOS sections of
+the
 [complete installation guide](https://github.com/jlinderoth/isye524-students-julia/blob/main/docs/installation.md).
 
 ## 2. Confirm the required programs
@@ -53,6 +53,9 @@ git clone https://github.com/jlinderoth/isye524-students-julia.git
 cd isye524-students-julia
 code .
 ```
+
+The repository is public, so cloning it does not require a GitHub account. Do
+not run `git clone` with `sudo`.
 
 If the `code` command is unavailable, open VS Code normally, select
 **File: Open Folder**, and choose the `isye524-students-julia` folder. Always
@@ -121,14 +124,26 @@ ISyE 524: Update course repository
 ISyE 524: Start an assignment from its template
 ```
 
-Enter `hw0` when the second task asks for the assignment name. Work only in the
-new `student-work/hw0/` folder; do not edit the template under
-`assignments/hw0/`.
+Enter `hw00` when the second task asks for the assignment name. Work only in the
+new `student-work/hw00/` folder; do not edit the template under
+`assignments/hw00/`.
 
 Follow the authoritative
-[Homework 0 instructions](https://github.com/jlinderoth/isye524-students-julia/blob/main/assignments/hw0/README.md).
-Work through `julia-tutorial.ipynb` first, then complete `hw0.ipynb`.
+[Homework 0 instructions](https://github.com/jlinderoth/isye524-students-julia/blob/main/assignments/hw00/README.md).
+Work through `julia-tutorial.ipynb` first, then complete `hw00.ipynb`.
 
 Before submitting, use the
 [assignment and PDF workflow](https://github.com/jlinderoth/isye524-students-julia/blob/main/docs/canvas-assignment-workflow.md).
 
+## If you need help
+
+When asking for course help, include:
+
+- whether you chose native Windows, WSL, or macOS;
+- the numbered step and VS Code task you were running;
+- the complete error message, not only its final line; and
+- the output of `git --version`, `julia --version`, and, if installed,
+  `quarto --version` from the VS Code integrated terminal.
+
+Never include a password, access token, or other secret in a screenshot or
+message.

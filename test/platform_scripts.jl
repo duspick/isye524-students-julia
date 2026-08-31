@@ -27,8 +27,8 @@ end
 @testset "PDF export command" begin
     arguments = PdfExport.quarto_arguments(
         "quarto",
-        joinpath(REPOSITORY_ROOT, "student-work", "hw0", "hw0.ipynb"),
-        "hw0.pdf",
+        joinpath(REPOSITORY_ROOT, "student-work", "hw00", "hw00.ipynb"),
+        "hw00.pdf",
         false,
     )
     @test "--output-dir" in arguments
@@ -38,8 +38,8 @@ end
 
     system_arguments = PdfExport.quarto_arguments(
         "quarto",
-        "hw0.ipynb",
-        "hw0.pdf",
+        "hw00.ipynb",
+        "hw00.pdf",
         true,
     )
     @test "latex-tinytex:false" in system_arguments

@@ -1,5 +1,9 @@
 # Installing the ISyE 524 student environment
 
+For a shorter overview and the path into Homework 0, begin with
+[Start Here with Julia and JuMP](canvas-start-here.md). Use this page for the
+complete operating-system-specific procedure and troubleshooting details.
+
 This page is documentation, not a Julia program. Do not use **Julia: Execute
 Active File** on this page and do not paste its prose into a prompt that says
 `julia>`. Run only the commands shown in code boxes, using **Terminal: New
@@ -256,6 +260,9 @@ sudo apt install ./quarto-<version>-linux-amd64.deb
 ```
 
 On an Arm64 Linux computer, use the Arm64 `.deb` and its actual filename.
+After installation, the downloaded `.deb` is no longer needed. Remove it from
+the download directory rather than copying or leaving it in the course
+repository.
 
 ### WSL with Ubuntu or Debian
 
@@ -273,6 +280,12 @@ Replace both placeholders with the names on the computer. Then return to the
 repository directory and run `code .`. Confirm that the reopened window says
 **WSL** in the lower-left corner. Quarto, Julia, the Julia extension, and the
 Quarto extension all run on the Linux/WSL side in this window.
+
+APT may print a notice that the local `.deb` was downloaded "unsandboxed as
+root" because the `_apt` user could not access its directory. If the output
+says `Setting up quarto` and `quarto --version` works afterward, installation
+succeeded; the notice is not an error. The downloaded `.deb` can then be
+removed.
 
 ### Other Linux distributions or a no-sudo Linux install
 
@@ -362,3 +375,6 @@ workflow and troubleshooting.
 Open `notebooks/00-check-installation.ipynb`. If prompted for a kernel, choose
 Julia 1.12, then select **Run All**. Confirm that the optimization result,
 table, plot, and Markdown mathematics all appear.
+
+Then follow [Assignments and PDF Submission](canvas-assignment-workflow.md) to
+create the Homework 0 working copy and submit its PDF.

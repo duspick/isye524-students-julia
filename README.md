@@ -4,18 +4,18 @@ This repository provides the supported Julia environment for ISyE 524. It is
 intended to give every student the same Julia, JuMP, solver, data, plotting,
 notebook, and PDF-export workflow.
 
-The repository is a work-in-progress and will evolve as the semester evolves.
 The Julia environment, VS Code integration, installation checks, Gradescope PDF
 export, and Homework 0 starter material are ready. The first class example
 develops the Top Brass linear program. Additional course notebooks and
-assignments will be added throughout the semester, and students will be
-required to update the repository.
+assignments will be published throughout the semester, so students must update
+the repository regularly.
 
 ## Students: start here
 
-New students should begin with [Start Here with Julia and JuMP](docs/canvas-start-here.md).
-For homework after the initial setup, use
-[Assignments and PDF Submission](docs/canvas-assignment-workflow.md).
+1. For your first setup, follow
+   [Start Here with Julia and JuMP](docs/canvas-start-here.md).
+2. For Homework 0 and every later assignment, follow
+   [Assignments and PDF Submission](docs/canvas-assignment-workflow.md).
 
 ## Installation
 
@@ -120,29 +120,31 @@ the standard student environment.
 ## Starting an assignment
 
 Instructor templates are published in a separate folder for each assignment,
-such as `assignments/hw0/`. Do not edit the tracked template directly. After
+such as `assignments/hw00/`. Do not edit the tracked template directly. After
 pulling the latest course files, run this VS Code task:
 
 ```text
 ISyE 524: Start an assignment from its template
 ```
 
-Enter the assignment name supplied by the instructor, such as `hw0`. The task
-copies the complete template to `student-work/hw0/` and refuses to overwrite
+Enter the assignment name supplied by the instructor, such as `hw00`. The task
+copies the complete template to `student-work/hw00/` and refuses to overwrite
 an existing student copy. Work only in the new `student-work/` folder.
 
 The equivalent terminal command is:
 
 ```text
-julia --startup-file=no --project=. scripts/start_assignment.jl hw0
+julia --startup-file=no --project=. scripts/start_assignment.jl hw00
 ```
 
-The first published assignment is `hw0`. Its template contains a Julia tutorial
+The first published assignment is `hw00`. Its template contains a Julia tutorial
 and the Homework 0 exercises; see
-[Homework 0: Julia and JuMP setup](assignments/hw0/README.md).
+[Homework 0: Julia and JuMP setup](assignments/hw00/README.md).
 
-See [Working on assignments](docs/assignments.md) for the full workflow,
-including handwritten images and backup guidance.
+See [Assignments and PDF Submission](docs/canvas-assignment-workflow.md) for the
+complete recurring workflow. See
+[Assignment files, images, and backups](docs/assignments.md) for additional
+details about handwritten work and protecting student files.
 
 ## Keeping course files current
 
@@ -170,8 +172,10 @@ adding it to the system `PATH`. Students who already maintain TeX Live, MacTeX,
 or MiKTeX can select the separate system-TeX export task. The system-TeX task
 disables Quarto's TinyTeX selection and automatic package installation.
 
-See [Exporting a notebook to PDF](docs/pdf-export.md) for installation,
-export, system-TeX, and troubleshooting instructions.
+Follow [Assignments and PDF Submission](docs/canvas-assignment-workflow.md) for
+the normal submission sequence. See
+[Exporting a notebook to PDF](docs/pdf-export.md) for installation details,
+system-TeX guidance, and troubleshooting.
 
 ## Repository layout
 

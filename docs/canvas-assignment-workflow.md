@@ -20,6 +20,10 @@ ISyE 524: Update course repository
 This downloads new course files and refreshes the Julia environment. It does
 not overwrite work stored under `student-work/`.
 
+Run this update before starting each newly announced assignment. Do not edit
+tracked course files to resolve an update problem; preserve your work and read
+the Git message before making changes.
+
 ## 2. Create your assignment copy
 
 From **Tasks: Run Task**, run:
@@ -32,11 +36,14 @@ Enter the assignment name announced by the instructor. For the initial
 assignment, enter:
 
 ```text
-hw0
+hw00
 ```
 
 The task copies the complete template to `student-work/<assignment-name>/` and
 refuses to overwrite an existing copy.
+
+If the task reports that the assignment copy already exists, open that existing
+folder and continue working there. Do not delete it and start over.
 
 Do not edit files under `assignments/`. Those are instructor-published
 templates. Do all of your work in the copy under `student-work/`.
@@ -55,15 +62,18 @@ Before submitting:
 4. Save the notebook.
 
 For Homework 0, follow the
-[Homework 0 instructions](https://github.com/jlinderoth/isye524-students-julia/blob/main/assignments/hw0/README.md).
+[Homework 0 instructions](https://github.com/jlinderoth/isye524-students-julia/blob/main/assignments/hw00/README.md).
 
 If an assignment requires a handwritten model or other image, follow
-[Working on assignments: Images and handwritten work](https://github.com/jlinderoth/isye524-students-julia/blob/main/docs/assignments.md#images-and-handwritten-work).
+[Assignment files, images, and backups: Images and handwritten work](https://github.com/jlinderoth/isye524-students-julia/blob/main/docs/assignments.md#images-and-handwritten-work).
 
 ## 4. Prepare PDF export once
 
 PDF export requires the Quarto command-line program and a LaTeX installation.
 The Quarto VS Code extension alone is not sufficient.
+
+You normally perform this setup only once on each computer or WSL
+distribution.
 
 From **Tasks: Run Task**, run:
 
@@ -116,7 +126,6 @@ coursework. Do not rely on the generated PDF as the only copy of your notebook.
 ## Detailed help
 
 - [Complete installation guide](https://github.com/jlinderoth/isye524-students-julia/blob/main/docs/installation.md)
-- [Working on assignments](https://github.com/jlinderoth/isye524-students-julia/blob/main/docs/assignments.md)
+- [Assignment files, images, and backups](https://github.com/jlinderoth/isye524-students-julia/blob/main/docs/assignments.md)
 - [PDF export and troubleshooting](https://github.com/jlinderoth/isye524-students-julia/blob/main/docs/pdf-export.md)
-- [Homework 0 instructions](https://github.com/jlinderoth/isye524-students-julia/blob/main/assignments/hw0/README.md)
-
+- [Homework 0 instructions](https://github.com/jlinderoth/isye524-students-julia/blob/main/assignments/hw00/README.md)

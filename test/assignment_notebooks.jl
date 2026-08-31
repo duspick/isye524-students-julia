@@ -40,14 +40,14 @@ module HomeworkZero end
     tutorial_path = joinpath(
         REPOSITORY_ROOT,
         "assignments",
-        "hw0",
+        "hw00",
         "julia-tutorial.ipynb",
     )
     homework_path = joinpath(
         REPOSITORY_ROOT,
         "assignments",
-        "hw0",
-        "hw0.ipynb",
+        "hw00",
+        "hw00.ipynb",
     )
 
     execute_code_cells(JuliaTutorial, tutorial_path)
@@ -61,12 +61,12 @@ module HomeworkZero end
     mktempdir() do repository
         mkpath(joinpath(repository, "assignments"))
         cp(
-            joinpath(REPOSITORY_ROOT, "assignments", "hw0"),
-            joinpath(repository, "assignments", "hw0"),
+            joinpath(REPOSITORY_ROOT, "assignments", "hw00"),
+            joinpath(repository, "assignments", "hw00"),
         )
-        destination = AssignmentWorkspace.start_assignment(repository, "hw0")
+        destination = AssignmentWorkspace.start_assignment(repository, "hw00")
         @test isfile(joinpath(destination, "README.md"))
-        @test isfile(joinpath(destination, "hw0.ipynb"))
+        @test isfile(joinpath(destination, "hw00.ipynb"))
         @test isfile(joinpath(destination, "julia-tutorial.ipynb"))
     end
 end
