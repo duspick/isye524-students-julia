@@ -209,7 +209,8 @@ The first task downloads the versions recorded in `Manifest.toml` and creates
 the ignored `student-work/` and `submissions/` directories. The first setup can
 take several minutes. The environment check must finish with all tests passing.
 
-Course maintainers should then run this task once in each clone:
+Course maintainers should then run this task once in each clone.
+**Students are not course maintainers, so should not do this step**
 
 ```text
 ISyE 524 Maintainer: Enable pre-commit hook
