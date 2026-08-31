@@ -236,8 +236,8 @@
     {
       "id": "assignmentId",
       "type": "promptString",
-      "description": "Assignment name supplied by the instructor (for example, hw01)",
-      "default": "hw01"
+      "description": "Assignment name supplied by the instructor (for example, hw0)",
+      "default": "hw0"
     }
   ]
 }

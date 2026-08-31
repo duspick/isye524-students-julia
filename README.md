@@ -11,6 +11,12 @@ develops the Top Brass linear program. Additional course notebooks and
 assignments will be added throughout the semester, and students will be
 required to update the repository.
 
+## Students: start here
+
+New students should begin with [Start Here with Julia and JuMP](docs/canvas-start-here.md).
+For homework after the initial setup, use
+[Assignments and PDF Submission](docs/canvas-assignment-workflow.md).
+
 ## Installation
 
 Before running any VS Code task, follow the complete
