@@ -10,8 +10,8 @@
 # Quarto working files, student work, and generated submissions
 /.quarto/
 **/*.quarto_ipynb
-/student-work/
-/submissions/
+#/student-work/
+#/submissions/
 
 # Local Python environments are not part of the course environment
 .venv/
