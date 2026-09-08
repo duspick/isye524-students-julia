@@ -10,6 +10,86 @@ Before publishing an assignment, also follow the
 README should direct students to the central
 [Assignments and PDF Submission](canvas-assignment-workflow.md) workflow.
 
+## Add course packages or solvers
+
+The direct package list is in `Project.toml`; `Manifest.toml` records the
+resolved versions and their dependencies. `scripts/setup.jl` activates this
+project and calls `Pkg.instantiate()` and `Pkg.precompile()`. There is no
+separate package list to edit in the setup script.
+
+For additions that every student should receive:
+
+1. From the repository root, start the supported Julia version:
+
+   ```text
+   julia --startup-file=no --project=.
+   ```
+
+2. At the `julia>` prompt, use the package manager with the actual package
+   names selected for the course. The names below are placeholders:
+
+   ```julia
+   import Pkg
+   Pkg.add(["PackageName", "SolverPackageName"]; preserve=Pkg.PRESERVE_ALL)
+   Pkg.precompile()
+   Pkg.status()
+   ```
+
+   `PRESERVE_ALL` keeps existing dependency versions while resolving the new
+   additions. If that cannot resolve, investigate the compatibility conflict
+   and deliberately select which existing packages to update. Review the
+   resulting diff in both TOML files. Do not edit the manifest manually.
+   See the [Pkg API reference](https://pkgdocs.julialang.org/v1/api/).
+3. Extend `test/smoke.jl` with a small use of each new package. For a solver,
+   solve a representative model and check termination status and the expected
+   solution within suitable tolerances. The existing check solves an LP with
+   HiGHS but only imports Ipopt; it does not yet verify an Ipopt solve.
+4. Add an example or update the installation notebook so students can verify
+   the new functionality. Installing a solver does not change existing
+   notebooks' choice of optimizer. Use the solver's documented constructor
+   and a model class it supports; the
+   [JuMP solver guide](https://jump.dev/JuMP.jl/stable/installation/#Supported-solvers)
+   lists capabilities and extra installation requirements.
+5. Update the README's included-package list and any assignment instructions.
+   Run setup, the environment check, and the notebook checks described below
+   before publishing. Verify new solver installations on the student operating
+   systems. Currently the full environment runs in CI only on Ubuntu; the
+   Windows/macOS jobs test workflow helpers without installing the course
+   packages. Extend CI if automated solver coverage on those platforms is needed.
+6. Commit and publish `Project.toml` and `Manifest.toml` together with the tests,
+   examples, and documentation. Announce the additions and direct students to
+   [Updating course packages and solvers](package-updates.md), identifying any
+   new example they must run and any evidence they should submit.
+
+The existing **ISyE 524: Update course repository** task already performs a
+fast-forward pull followed by setup. Students then run **ISyE 524: Run
+environment check**. Adding ordinary dependencies needs no new VS Code task or
+setup-script changes. Instantiation installs the state recorded in the
+manifest; see [Pkg environments](https://pkgdocs.julialang.org/v1/environments/).
+
+### Solvers with separate installation or licensing
+
+Before making a solver required, document its supported platforms, binary
+installation if needed, license setup, and a small solve that verifies access.
+For example, the current [Gurobi.jl installation
+instructions](https://jump.dev/JuMP.jl/stable/packages/Gurobi/) install solver
+binaries through the package manager but still require a separately configured
+license. For MOSEK, JuMP integration uses `MosekTools` and `Mosek`; notebooks
+that import both should list both as direct dependencies. Follow the
+[MosekTools instructions](https://jump.dev/JuMP.jl/stable/packages/MosekTools/)
+for installation, licensing, and optimizer selection.
+
+Keep license files and credentials outside the repository. Decide how licensed
+tests will run before adding them to the default check: the current CI workflow
+does not configure commercial solver licenses.
+
+If only some students should install an additional solver, design a separate
+optional environment and matching setup/check tasks. Any dependency added to
+the root project is installed for everyone by standard setup. An optional
+environment also needs explicit notebook activation instructions because the
+current VS Code configuration selects the root course project. This optional
+workflow is not currently implemented.
+
 ## Enable the pre-commit safeguard
 
 Git does not enable repository-provided hooks automatically. In each maintainer
