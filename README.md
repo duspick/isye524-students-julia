@@ -160,6 +160,10 @@ If a student edits a tracked course file and an update changes the same file,
 Git stops instead of overwriting it. The task never resets or automatically
 stashes student files.
 
+When an announcement adds Julia packages or solvers, follow
+[Updating course packages and solvers](docs/package-updates.md) to install the
+update, check the environment, and restart your notebook kernels.
+
 ## Exporting assignments to PDF
 
 Assignments are exported from saved Jupyter notebooks with Quarto. Install

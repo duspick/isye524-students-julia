@@ -1,5 +1,7 @@
 using JSON
 using JuMP
+# Notebook kernels load REPL, which enables formatted documentation from @doc.
+using REPL
 using Test
 import MathOptInterface as MOI
 
