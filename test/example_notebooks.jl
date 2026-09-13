@@ -155,3 +155,48 @@ end
         end
     end
 end
+
+module DietLPCasesExample end
+
+@testset "Diet LP solution cases" begin
+    path = joinpath(REPOSITORY_ROOT, "notebooks", "05-McDonaldsDiet-LPCases.ipynb")
+    # Run All must rebuild the models before deleting the drink constraint again.
+    for run in 1:2
+        @testset "Run All $(run)" begin
+            example = execute_code_cells(DietLPCasesExample, path)
+            minimums = [example.required[i] for i in example.nutrients]
+
+            @test example.A == McDonaldsDietExample.A
+            @test example.unbounded_status in (
+                MOI.DUAL_INFEASIBLE, MOI.INFEASIBLE_OR_UNBOUNDED,
+            )
+            @test !is_solved_and_feasible(example.unbounded_model)
+            # Validate the feasible menu and improving direction used in the text.
+            @test all(example.A * fill(10.0, length(example.foods)) .>= minimums)
+            @test all(example.A_NA[:, :QP] .>= 0)
+            @test :QP in example.burgers
+
+            @test example.bounded_status == MOI.OPTIMAL
+            @test is_solved_and_feasible(example.bounded_model)
+            @test example.maximum_burgers ≈ 30.0 atol = 1e-8
+            bounded_servings = [value(example.x_bounded[j]) for j in example.foods]
+            @test all(bounded_servings .>= -1e-8)
+            @test all(bounded_servings .<= 10.0 + 1e-8)
+            @test all(example.A * bounded_servings .>= minimums .- 1e-8)
+
+            # This status was saved before the same model's drink limit changed.
+            @test example.infeasible_status == MOI.INFEASIBLE
+            @test example.relaxed_status == MOI.OPTIMAL
+            @test is_solved_and_feasible(example.limited_model)
+            @test example.extra_drinks ≈ 16.9 atol = 1e-8
+            @test value(example.s) ≈ example.extra_drinks atol = 1e-8
+            @test example.total_drinks ≈ 3.0 + example.extra_drinks atol = 1e-8
+
+            relaxed_servings = [value(example.x_limited[j]) for j in example.foods]
+            @test all(relaxed_servings .>= -1e-8)
+            @test all(example.A * relaxed_servings .>= minimums .- 1e-8)
+            @test sum(value(example.x_limited[j]) for j in example.sandwiches) <= 3.0 + 1e-8
+            @test value(example.x_limited[:FR]) <= 2.0 + 1e-8
+        end
+    end
+end

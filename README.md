@@ -109,8 +109,12 @@ reads the diet model's data from CSV. Change `dataset_filename` in its first
 code cell to select `mcdonalds.csv` (9 foods, 7 nutrients) or
 `diet-synthetic.csv` (100 fictional foods, 20 fictional nutrients), then choose
 **Run All**. Both CSV files are included under `data/`; see the
-[dataset descriptions and format](data/README.md). All class examples use
-packages already included in the course environment.
+[dataset descriptions and format](data/README.md).
+[notebooks/05-McDonaldsDiet-LPCases.ipynb](notebooks/05-McDonaldsDiet-LPCases.ipynb)
+explores unbounded, optimal, and infeasible diet LPs, then restores feasibility
+by relaxing the drink limit. Its unbounded and infeasible outcomes are
+intentional; choose **Run All** to work through every case. All class examples
+use packages already included in the course environment.
 
 Files under `notebooks/` are read-only course examples. Students should run and
 study them but should not save personal work in those tracked files.
