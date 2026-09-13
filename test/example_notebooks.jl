@@ -200,3 +200,36 @@ module DietLPCasesExample end
         end
     end
 end
+
+module AlloyExample end
+
+@testset "Alloy blending class example" begin
+    path = joinpath(REPOSITORY_ROOT, "notebooks", "06-Alloy.ipynb")
+    example = execute_code_cells(AlloyExample, path)
+
+    @test example.status == MOI.OPTIMAL
+    @test is_solved_and_feasible(example.model)
+    @test example.total_production ≈ 500.0 atol = 1e-8
+    @test example.minimum_cost ≈ 98_121.63579168124 atol = 1e-6
+
+    amounts = [value(example.x[r]) for r in example.raw]
+    stock = [example.availability[r] for r in example.raw]
+    costs = [example.cost[r] for r in example.raw]
+    @test all(amounts .>= -1e-8)
+    @test all(amounts .<= stock .+ 1e-8)
+    @test sum(amounts) >= example.demand - 1e-8
+    @test sum(amounts) ≈ example.total_production atol = 1e-8
+    @test sum(costs .* amounts) ≈ example.minimum_cost atol = 1e-6
+    @test [example.remaining_stock[r] for r in example.raw] ≈ stock - amounts atol = 1e-8
+
+    # Recompute weighted percentages from the numerical matrix, including both limits.
+    grades = transpose(example.composition) * amounts / sum(amounts)
+    minimums = [example.minimum_grade[e] for e in example.elements]
+    maximums = [example.maximum_grade[e] for e in example.elements]
+    @test all(grades .>= minimums .- 1e-8)
+    @test all(grades .<= maximums .+ 1e-8)
+    @test [example.final_grade[e] for e in example.elements] ≈ grades atol = 1e-8
+    # The original upper-bound typo incorrectly forced copper to its minimum.
+    @test example.final_grade[:Cu] ≈ 0.6 atol = 1e-8
+    @test example.final_grade[:Cu] > example.minimum_grade[:Cu] + 1e-8
+end

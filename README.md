@@ -6,9 +6,9 @@ notebook, and PDF-export workflow.
 
 The Julia environment, VS Code integration, installation checks, Gradescope PDF
 export, and Homework 0 starter material are ready. The class examples develop
-the Top Brass and McDonald's diet linear programs. Additional course notebooks
-and assignments will be published throughout the semester, so students must
-update the repository regularly.
+the Top Brass, McDonald's diet, and alloy blending linear programs. Additional
+course notebooks and assignments will be published throughout the semester, so
+students must update the repository regularly.
 
 ## Students: start here
 
@@ -113,8 +113,11 @@ code cell to select `mcdonalds.csv` (9 foods, 7 nutrients) or
 [notebooks/05-McDonaldsDiet-LPCases.ipynb](notebooks/05-McDonaldsDiet-LPCases.ipynb)
 explores unbounded, optimal, and infeasible diet LPs, then restores feasibility
 by relaxing the drink limit. Its unbounded and infeasible outcomes are
-intentional; choose **Run All** to work through every case. All class examples
-use packages already included in the course environment.
+intentional; choose **Run All** to work through every case.
+[notebooks/06-Alloy.ipynb](notebooks/06-Alloy.ipynb) minimizes the cost of a
+500-tonne steel order subject to raw-material availability and minimum and
+maximum element percentages. All class examples use packages already included
+in the course environment.
 
 Files under `notebooks/` are read-only course examples. Students should run and
 study them but should not save personal work in those tracked files.
