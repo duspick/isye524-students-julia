@@ -151,9 +151,14 @@ The equivalent terminal command is:
 julia --startup-file=no --project=. scripts/start_assignment.jl hw00
 ```
 
-The first published assignment is `hw00`. Its template contains a Julia tutorial
-and the Homework 0 exercises; see
-[Homework 0: Julia and JuMP setup](assignments/hw00/README.md).
+Available assignment templates are:
+
+- [HW00: Julia and JuMP setup](assignments/hw00/README.md), including the Julia
+  tutorial and installation exercises.
+- [HW01: Convexity and introductory linear programming](assignments/hw01/README.md).
+- [HW02: LP reformulation, indexed models, and blending](assignments/hw02/README.md),
+  including the three CSV files used in Problem 2. Enter `hw02` in the
+  assignment-copy task to copy the notebook and its data together.
 
 See [Assignments and PDF Submission](docs/canvas-assignment-workflow.md) for the
 complete recurring workflow. See
