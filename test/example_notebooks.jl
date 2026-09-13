@@ -233,3 +233,72 @@ module AlloyExample end
     @test example.final_grade[:Cu] ≈ 0.6 atol = 1e-8
     @test example.final_grade[:Cu] > example.minimum_grade[:Cu] + 1e-8
 end
+
+module BlendingExample end
+
+@testset "Gasoline blending class example" begin
+    path = joinpath(REPOSITORY_ROOT, "notebooks", "07-Blending.ipynb")
+    example = execute_code_cells(BlendingExample, path)
+
+    @test example.status == MOI.OPTIMAL
+    @test is_solved_and_feasible(example.model)
+    @test example.maximum_profit ≈ 318_100.0 atol = 1e-6
+
+    allocations = [value(example.x[i, j]) for i in example.crudes, j in example.gases]
+    purchases = [value(example.y[i]) for i in example.crudes]
+    sales = [value(example.z[j]) for j in example.gases]
+    advertising = [value(example.a[j]) for j in example.gases]
+    @test all(allocations .>= -1e-8)
+    @test all(purchases .>= -1e-8)
+    @test all(sales .>= -1e-8)
+    @test all(advertising .>= -1e-8)
+    @test vec(sum(allocations; dims = 2)) ≈ purchases atol = 1e-8
+    @test vec(sum(allocations; dims = 1)) ≈ sales atol = 1e-8
+    @test all(purchases .<= example.max_crude_available + 1e-8)
+    @test sum(purchases) <= example.max_crude_processed + 1e-8
+    @test example.total_processed ≈ sum(purchases) atol = 1e-8
+
+    nominal_demand = [example.gas_nom_demand[j] for j in example.gases]
+    @test all(sales .<= nominal_demand .+ example.advertising_inc .* advertising .+ 1e-8)
+    @test advertising ≈ max.(sales - nominal_demand, 0) / example.advertising_inc atol = 1e-8
+
+    revenue = sum(example.gas_price[j] * value(example.z[j]) for j in example.gases)
+    crude_cost = sum(example.crude_price[i] * value(example.y[i]) for i in example.crudes)
+    processing_cost = example.processing_cost_per_barrel * sum(purchases)
+    @test example.daily_revenue ≈ revenue atol = 1e-6
+    @test example.daily_crude_cost ≈ crude_cost atol = 1e-6
+    @test example.daily_processing_cost ≈ processing_cost atol = 1e-6
+    @test example.daily_advertising_cost ≈ sum(advertising) atol = 1e-8
+    @test example.maximum_profit ≈ revenue - crude_cost - processing_cost - sum(advertising) atol = 1e-6
+
+    for j in example.gases
+        volume = value(example.z[j])
+        octane_total = sum(example.octane[i] * value(example.x[i, j]) for i in example.crudes)
+        sulfur_total = sum(example.sulfur[i] * value(example.x[i, j]) for i in example.crudes)
+        @test octane_total >= example.min_octane[j] * volume - 1e-8
+        @test sulfur_total <= example.max_sulfur[j] * volume + 1e-8
+        if volume > 1e-6
+            @test example.blend_octane[j] ≈ octane_total / volume atol = 1e-8
+            @test example.blend_sulfur[j] ≈ sulfur_total / volume atol = 1e-8
+        else
+            @test !haskey(example.blend_octane, j)
+            @test !haskey(example.blend_sulfur, j)
+        end
+    end
+
+    @testset "Higher processing charge and zero production" begin
+        # Changing the input must affect the objective when Run All rebuilds the model.
+        example = execute_code_cells(BlendingExample, path; source_replacements = [
+            "processing_cost_per_barrel = 4" => "processing_cost_per_barrel = 100",
+        ])
+        @test example.status == MOI.OPTIMAL
+        @test is_solved_and_feasible(example.model)
+        @test example.maximum_profit ≈ 0.0 atol = 1e-8
+        @test example.total_processed ≈ 0.0 atol = 1e-8
+        @test all(abs(value(example.z[j])) <= 1e-8 for j in example.gases)
+        @test all(abs(value(example.a[j])) <= 1e-8 for j in example.gases)
+        @test isempty(example.produced_gases)
+        @test isempty(example.blend_octane)
+        @test isempty(example.blend_sulfur)
+    end
+end
