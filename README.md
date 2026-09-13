@@ -103,7 +103,14 @@ Continue with
 the same model using variable bounds, dictionaries, and a NamedArray.
 [notebooks/03-McDonaldsDiet.ipynb](notebooks/03-McDonaldsDiet.ipynb) minimizes
 the cost of a menu subject to nutrient minimums, using both named and integer
-indices. Both notebooks use packages already included in the course environment.
+indices.
+[notebooks/04-McDonaldsDiet-CSV.ipynb](notebooks/04-McDonaldsDiet-CSV.ipynb)
+reads the diet model's data from CSV. Change `dataset_filename` in its first
+code cell to select `mcdonalds.csv` (9 foods, 7 nutrients) or
+`diet-synthetic.csv` (100 fictional foods, 20 fictional nutrients), then choose
+**Run All**. Both CSV files are included under `data/`; see the
+[dataset descriptions and format](data/README.md). All class examples use
+packages already included in the course environment.
 
 Files under `notebooks/` are read-only course examples. Students should run and
 study them but should not save personal work in those tracked files.
@@ -163,8 +170,9 @@ ISyE 524: Update course repository
 
 This task performs a fast-forward-only Git pull and then refreshes the Julia
 environment.
-The pull also downloads newly published class examples into `notebooks/`,
-including the Top Brass and McDonald's diet notebooks linked above. Running
+The pull also downloads newly published class examples into `notebooks/` and
+their shared CSV files into `data/`, including the Top Brass and McDonald's
+diet examples linked above. Running
 **Set up / refresh Julia environment** alone installs packages from the local
 course files; use **Update course repository** to receive new notebooks.
 
