@@ -5,10 +5,10 @@ intended to give every student the same Julia, JuMP, solver, data, plotting,
 notebook, and PDF-export workflow.
 
 The Julia environment, VS Code integration, installation checks, Gradescope PDF
-export, and Homework 0 starter material are ready. The first class example
-develops the Top Brass linear program. Additional course notebooks and
-assignments will be published throughout the semester, so students must update
-the repository regularly.
+export, and Homework 0 starter material are ready. The class examples develop
+the Top Brass and McDonald's diet linear programs. Additional course notebooks
+and assignments will be published throughout the semester, so students must
+update the repository regularly.
 
 ## Students: start here
 
@@ -98,6 +98,13 @@ After the installation check, open
 JuMP, solves it with HiGHS, checks for an optimal termination status, and
 interprets the solution.
 
+Continue with
+[notebooks/02-TopBrass-Full.ipynb](notebooks/02-TopBrass-Full.ipynb) to develop
+the same model using variable bounds, dictionaries, and a NamedArray.
+[notebooks/03-McDonaldsDiet.ipynb](notebooks/03-McDonaldsDiet.ipynb) minimizes
+the cost of a menu subject to nutrient minimums, using both named and integer
+indices. Both notebooks use packages already included in the course environment.
+
 Files under `notebooks/` are read-only course examples. Students should run and
 study them but should not save personal work in those tracked files.
 
@@ -155,7 +162,13 @@ ISyE 524: Update course repository
 ```
 
 This task performs a fast-forward-only Git pull and then refreshes the Julia
-environment. Work under `student-work/` is ignored by Git and is unaffected.
+environment.
+The pull also downloads newly published class examples into `notebooks/`,
+including the Top Brass and McDonald's diet notebooks linked above. Running
+**Set up / refresh Julia environment** alone installs packages from the local
+course files; use **Update course repository** to receive new notebooks.
+
+Work under `student-work/` is ignored by Git and is unaffected.
 If a student edits a tracked course file and an update changes the same file,
 Git stops instead of overwriting it. The task never resets or automatically
 stashes student files.
