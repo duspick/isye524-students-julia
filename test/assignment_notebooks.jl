@@ -20,7 +20,7 @@ function read_notebook(path)
     return notebook
 end
 
-function execute_code_cells(module_, path)
+function execute_code_cells(module_, path; cell_filename = path)
     notebook = read_notebook(path)
     code = join(
         join(cell["source"])
@@ -30,7 +30,7 @@ function execute_code_cells(module_, path)
     @test !occursin(r"Pkg\.(add|update)\s*\(", code)
     for cell in notebook["cells"]
         get(cell, "cell_type", nothing) == "code" || continue
-        Base.include_string(module_, join(cell["source"]), path)
+        Base.include_string(module_, join(cell["source"]), cell_filename)
     end
     return module_
 end
@@ -70,5 +70,68 @@ module HomeworkZero end
         @test isfile(joinpath(destination, "README.md"))
         @test isfile(joinpath(destination, "hw00.ipynb"))
         @test isfile(joinpath(destination, "julia-tutorial.ipynb"))
+    end
+end
+
+module HomeworkTwo end
+
+function check_homework_two_data(example, destination)
+    @test example.data_dir == joinpath(destination, "data")
+    @test length(example.P) == 5
+    @test length(example.C) == 5
+    @test length(example.h) == 25
+    @test Set(keys(example.h)) ==
+          Set((p, c) for p in example.P for c in example.C)
+    @test all(example.products.availability .>= 0)
+    @test all(example.methods.capacity .>= 0)
+    @test all(example.methods.cost .>= 0)
+    @test all(isfinite, values(example.h))
+
+    @test size(example.composition) == (7, 3)
+    @test all(0 .<= example.composition .<= 100)
+    @test all(0 <= example.α[e] <= example.β[e] <= 100 for e in example.E)
+    @test all(example.c[j] > 0 && example.u[j] >= 0 for j in example.J)
+    @test example.d > 0
+end
+
+@testset "Homework 2 starter notebook and student copy" begin
+    source = joinpath(REPOSITORY_ROOT, "assignments", "hw02")
+    mktempdir() do repository
+        mkpath(joinpath(repository, "assignments"))
+        cp(source, joinpath(repository, "assignments", "hw02"))
+        template = joinpath(repository, "assignments", "hw02", "hw02.ipynb")
+
+        # A kernel at the repository root can also run the published template.
+        cd(repository) do
+            execute_code_cells(HomeworkTwo, template; cell_filename = "In[1]")
+        end
+        @test Base.invokelatest(getproperty, HomeworkTwo, :data_dir) ==
+              joinpath(dirname(template), "data")
+
+        destination = AssignmentWorkspace.start_assignment(repository, "hw02")
+        notebook = joinpath(destination, "hw02.ipynb")
+        for file in (
+            "hw02.ipynb", "README.md", joinpath("data", "products.csv"),
+            joinpath("data", "methods.csv"), joinpath("data", "revenues.csv"),
+        )
+            @test read(joinpath(destination, file)) == read(joinpath(source, file))
+        end
+        @test_throws ErrorException AssignmentWorkspace.start_assignment(repository, "hw02")
+
+        for directory in (destination, repository)
+            cd(directory) do
+                execute_code_cells(HomeworkTwo, notebook; cell_filename = "In[1]")
+            end
+            # Julia 1.12 notebook evaluation introduces bindings in a new world age.
+            Base.invokelatest(check_homework_two_data, HomeworkTwo, destination)
+        end
+
+        # Missing student data must not silently fall back to the template.
+        rm(joinpath(destination, "data", "products.csv"))
+        cd(repository) do
+            @test_throws LoadError execute_code_cells(
+                HomeworkTwo, notebook; cell_filename = "In[1]",
+            )
+        end
     end
 end

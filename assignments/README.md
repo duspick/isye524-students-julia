@@ -39,3 +39,9 @@ Before publishing a template, clear all code-cell outputs and execution counts
 while preserving any Markdown attachments. Test the complete student copy and
 PDF-export path. The maintainer pre-commit hook performs notebook cleaning
 automatically; see [Maintainer workflow](../docs/maintainers.md).
+
+Add new assignments to the root README and to `test/assignment_notebooks.jl`
+so CI executes their supplied starter code. Check that required files travel
+with the student copy and that data paths work both beside the notebook and
+from the repository root. Student implementation cells may remain empty or
+contain comments; keep solution checks out of published starter notebooks.
