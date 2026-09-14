@@ -5,10 +5,10 @@ intended to give every student the same Julia, JuMP, solver, data, plotting,
 notebook, and PDF-export workflow.
 
 The Julia environment, VS Code integration, installation checks, Gradescope PDF
-export, and Homework 0 starter material are ready. The first class example
-develops the Top Brass linear program. Additional course notebooks and
-assignments will be published throughout the semester, so students must update
-the repository regularly.
+export, and Homework 0 starter material are ready. The class examples develop
+the Top Brass, McDonald's diet, alloy blending, and gasoline blending linear
+programs. Additional course notebooks and assignments will be published
+throughout the semester, so students must update the repository regularly.
 
 ## Students: start here
 
@@ -98,6 +98,30 @@ After the installation check, open
 JuMP, solves it with HiGHS, checks for an optimal termination status, and
 interprets the solution.
 
+Continue with
+[notebooks/02-TopBrass-Full.ipynb](notebooks/02-TopBrass-Full.ipynb) to develop
+the same model using variable bounds, dictionaries, and a NamedArray.
+[notebooks/03-McDonaldsDiet.ipynb](notebooks/03-McDonaldsDiet.ipynb) minimizes
+the cost of a menu subject to nutrient minimums, using both named and integer
+indices.
+[notebooks/04-McDonaldsDiet-CSV.ipynb](notebooks/04-McDonaldsDiet-CSV.ipynb)
+reads the diet model's data from CSV. Change `dataset_filename` in its first
+code cell to select `mcdonalds.csv` (9 foods, 7 nutrients) or
+`diet-synthetic.csv` (100 fictional foods, 20 fictional nutrients), then choose
+**Run All**. Both CSV files are included under `data/`; see the
+[dataset descriptions and format](data/README.md).
+[notebooks/05-McDonaldsDiet-LPCases.ipynb](notebooks/05-McDonaldsDiet-LPCases.ipynb)
+explores unbounded, optimal, and infeasible diet LPs, then restores feasibility
+by relaxing the drink limit. Its unbounded and infeasible outcomes are
+intentional; choose **Run All** to work through every case.
+[notebooks/06-Alloy.ipynb](notebooks/06-Alloy.ipynb) minimizes the cost of a
+500-tonne steel order subject to raw-material availability and minimum and
+maximum element percentages.
+[notebooks/07-Blending.ipynb](notebooks/07-Blending.ipynb) maximizes daily
+gasoline profit by choosing crude purchases, blends, sales, and advertising,
+subject to capacity, demand, octane, and sulfur limits. All class examples use
+packages already included in the course environment.
+
 Files under `notebooks/` are read-only course examples. Students should run and
 study them but should not save personal work in those tracked files.
 
@@ -137,9 +161,14 @@ The equivalent terminal command is:
 julia --startup-file=no --project=. scripts/start_assignment.jl hw00
 ```
 
-The first published assignment is `hw00`. Its template contains a Julia tutorial
-and the Homework 0 exercises; see
-[Homework 0: Julia and JuMP setup](assignments/hw00/README.md).
+Available assignment templates are:
+
+- [HW00: Julia and JuMP setup](assignments/hw00/README.md), including the Julia
+  tutorial and installation exercises.
+- [HW01: Convexity and introductory linear programming](assignments/hw01/README.md).
+- [HW02: LP reformulation, indexed models, and blending](assignments/hw02/README.md),
+  including the three CSV files used in Problem 2. Enter `hw02` in the
+  assignment-copy task to copy the notebook and its data together.
 
 See [Assignments and PDF Submission](docs/canvas-assignment-workflow.md) for the
 complete recurring workflow. See
@@ -155,7 +184,14 @@ ISyE 524: Update course repository
 ```
 
 This task performs a fast-forward-only Git pull and then refreshes the Julia
-environment. Work under `student-work/` is ignored by Git and is unaffected.
+environment.
+The pull also downloads newly published class examples into `notebooks/` and
+their shared CSV files into `data/`, including the Top Brass and McDonald's
+diet examples linked above. Running
+**Set up / refresh Julia environment** alone installs packages from the local
+course files; use **Update course repository** to receive new notebooks.
+
+Work under `student-work/` is ignored by Git and is unaffected.
 If a student edits a tracked course file and an update changes the same file,
 Git stops instead of overwriting it. The task never resets or automatically
 stashes student files.
