@@ -1,0 +1,6 @@
+method,capacity,cost
+Fresh,5000,0
+SmokedRegular,420,3
+SmokedOvertime,250,5
+Cured,100,4
+Pickled,400,2
