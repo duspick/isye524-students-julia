@@ -87,11 +87,9 @@ function check_homework_two_data(example, destination)
     @test all(example.methods.cost .>= 0)
     @test all(isfinite, values(example.h))
 
-    @test size(example.composition) == (7, 3)
-    @test all(0 .<= example.composition .<= 100)
-    @test all(0 <= example.α[e] <= example.β[e] <= 100 for e in example.E)
-    @test all(example.c[j] > 0 && example.u[j] >= 0 for j in example.J)
-    @test example.d > 0
+    @test example.b == Dict(row.product => row.availability for row in eachrow(example.products))
+    @test example.u == Dict(row.method => row.capacity for row in eachrow(example.methods))
+    @test example.q == Dict(row.method => row.cost for row in eachrow(example.methods))
 end
 
 @testset "Homework 2 starter notebook and student copy" begin

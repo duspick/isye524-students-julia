@@ -166,8 +166,8 @@ Available assignment templates are:
 - [HW00: Julia and JuMP setup](assignments/hw00/README.md), including the Julia
   tutorial and installation exercises.
 - [HW01: Convexity and introductory linear programming](assignments/hw01/README.md).
-- [HW02: LP reformulation, indexed models, and blending](assignments/hw02/README.md),
-  including the three CSV files used in Problem 2. Enter `hw02` in the
+- [HW02: LP reformulation, solution cases, and indexed models](assignments/hw02/README.md),
+  including the three CSV files used in Problem 3(d). Enter `hw02` in the
   assignment-copy task to copy the notebook and its data together.
 
 See [Assignments and PDF Submission](docs/canvas-assignment-workflow.md) for the

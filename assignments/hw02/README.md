@@ -1,11 +1,11 @@
-# Homework 02: LP reformulation, indexed models, and blending
+# Homework 02: LP reformulation, solution cases, and indexed models
 
-Due **Monday, September 21, 2026, at 11:59 p.m. (Madison time)**. Covers the latter part of Lecture 3, Lecture 4, and introductory blending from Lecture 5.
+Due **Monday, September 21, 2026, at 11:59 p.m. (Madison time)**. Covers LP solution cases, standard-form reformulation, and general indexed LP models (Lectures 3–5).
 
 ## Files and getting started
 
 - `hw02.ipynb`: the assignment notebook, including problem statements, supplied code, and response areas.
-- `data/products.csv`, `data/methods.csv`, `data/revenues.csv`: the Problem 2 data. Keep the entire `data/` folder beside the notebook.
+- `data/products.csv`, `data/methods.csv`, `data/revenues.csv`: the Problem 3(d) data. Keep the entire `data/` folder beside the notebook.
 - `README.md`: this overview.
 
 Follow [Assignments and PDF Submission](https://github.com/jlinderoth/isye524-students-julia/blob/main/docs/canvas-assignment-workflow.md) for the update, copy, export, and backup workflow.
@@ -22,11 +22,11 @@ working notebook; these are assignment-specific files.
 
 Complete all three problems:
 
-1. Convert LPs to standard form, explain equivalence, verify recovered solutions with JuMP, and justify four LP solution cases.
-2. Formulate and solve a general indexed production/processing model using the supplied CSV data, interpret resource use, and explain why independent choices can violate shared capacities.
-3. Formulate and solve a steel-blending LP, verify composition requirements, and justify why an optimal delivery is exactly 500 tons.
+1. Convert LPs to standard form, explain equivalence, and solve and compare the original and transformed models using JuMP.
+2. Classify four LP solution cases and explain the distinction between an unbounded feasible region and an unbounded objective.
+3. Formulate and solve the pork production instance and a general indexed JMAP model using the supplied CSV data.
 
-Write formulations before implementation and include the requested reasoning, units, constraints, and interpretation. Some Problem 1 questions and the final parts of Problems 2 and 3 need no additional code.
+Write formulations before implementation and include the requested reasoning, units, constraints, and interpretation. Problem 2 is entirely written; parts 1(c), 3(a), and 3(c) also require no code. Parts 1(b), 3(b), and 3(d) require implementation.
 
 For every written part, type LaTeX mathematics in Markdown or insert a clear photograph/scan of handwritten work. Keep answers and reasoning together and label subparts; no duplicate transcription is required. Implementations belong in code cells. The notebook explains image attachments and relative paths; see [Images and handwritten work](https://github.com/jlinderoth/isye524-students-julia/blob/main/docs/assignments.md#images-and-handwritten-work).
 
