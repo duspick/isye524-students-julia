@@ -193,6 +193,18 @@ If the prompt does not appear, open **Extensions: Show Recommended Extensions**
 from the Command Palette and install the workspace recommendations. The Quarto
 extension does not install the Quarto command-line program used for PDF export.
 
+Personal workspace preferences in `.vscode/settings.json` are ignored by Git.
+This file is optional. To use the suggested course defaults, copy
+`.vscode/settings.example.json` to `.vscode/settings.json` without overwriting
+an existing settings file. These defaults disable Julia startup files for the
+VS Code Julia REPL and open Markdown files in preview. Course tasks already
+pass `--startup-file=no` themselves and do not require this settings file.
+
+For preferences that should apply across projects, select the **User** tab in
+Settings, or use **Preferences: Open User Settings (JSON)** from the Command
+Palette. If an older clone reports a settings conflict during an update,
+follow the one-time migration in [Help with course updates](course-updates.md).
+
 ## 7. Set up and test the Julia environment
 
 Open the Command Palette, select **Tasks: Run Task**, and run these tasks in

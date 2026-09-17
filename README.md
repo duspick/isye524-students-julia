@@ -196,6 +196,23 @@ If a student edits a tracked course file and an update changes the same file,
 Git stops instead of overwriting it. The task never resets or automatically
 stashes student files.
 
+If notebook outputs or local edits block an update, save and close your
+notebooks, then run **ISyE 524: Reset course files to latest (with backup)**.
+This separate recovery task backs up saved course files and Git history in a
+dated folder beside the repository, replaces tracked files with the latest
+published versions, and refreshes Julia packages. Personal work in
+`student-work/`, generated `submissions/`, and local VS Code settings are
+preserved. See [reset and backup instructions](docs/course-updates.md#reset-course-files-with-an-automatic-backup).
+
+Personal VS Code settings in `.vscode/settings.json` are ignored by Git.
+Shared tasks and extension recommendations remain tracked. Optional course
+settings are supplied in `.vscode/settings.example.json`; copy it to
+`.vscode/settings.json` if you want those defaults.
+
+If an update stops, follow [Help with course updates](docs/course-updates.md).
+Older clones may need the one-time settings migration described there before
+they can receive the change that stops tracking `.vscode/settings.json`.
+
 When an announcement adds Julia packages or solvers, follow
 [Updating course packages and solvers](docs/package-updates.md) to install the
 update, check the environment, and restart your notebook kernels.

@@ -24,6 +24,12 @@ Run this update before starting each newly announced assignment. Do not edit
 tracked course files to resolve an update problem; preserve your work and read
 the Git message before making changes.
 
+If Git reports local changes, follow
+[Help with course updates](https://github.com/jlinderoth/isye524-students-julia/blob/main/docs/course-updates.md).
+It explains **ISyE 524: Reset course files to latest (with backup)**, which
+saves copies of edited course notebooks before replacing them with the latest
+versions. It also includes the one-time settings migration for older clones.
+
 ## 2. Create your assignment copy
 
 From **Tasks: Run Task**, run:
