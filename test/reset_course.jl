@@ -85,7 +85,8 @@ end
         reset_git(publisher, "commit", "-m", "New course files")
 
         backup = quiet_reset(repository, publisher)
-        @test dirname(backup) == directory
+        # macOS temporary paths can use /var, which resolves to /private/var.
+        @test realpath(dirname(backup)) == realpath(directory)
         @test startswith(basename(backup), "student clone-backup-")
         @test reset_git(repository, "rev-parse", "HEAD") == reset_git(publisher, "rev-parse", "HEAD")
         @test read(joinpath(repository, "notebooks/example.ipynb"), String) == "corrected course notebook\n"
