@@ -302,3 +302,103 @@ module BlendingExample end
         @test isempty(example.blend_sulfur)
     end
 end
+
+function check_shoeco_plan(example; backlog = false)
+    @test example.status == MOI.OPTIMAL
+    @test is_solved_and_feasible(example.model)
+    plan = example.plan
+    @test plan.month == collect(example.months)
+    @test plan.demand == example.d
+    for (column, variables) in (
+        (plan.produced, example.x), (plan.workers, example.w),
+        (plan.hired, example.h), (plan.fired, example.f),
+        (plan.overtime_hours, example.o),
+    )
+        @test column ≈ value.(variables) atol = 1e-8
+        @test all(column .>= -1e-8)
+    end
+
+    # Cumulative production and staffing changes must explain each month's state.
+    net_inventory = example.initial_inventory .+ cumsum(plan.produced - plan.demand)
+    @test value.(example.i) ≈ net_inventory atol = 1e-8
+    @test plan.workers ≈ example.initial_workforce .+ cumsum(plan.hired - plan.fired) atol = 1e-8
+    @test all(example.labor_hours_per_pair .* plan.produced .<=
+        example.regular_hours_per_worker .* plan.workers .+ plan.overtime_hours .+ 1e-8)
+    @test all(plan.overtime_hours .<=
+        example.overtime_hours_per_worker .* plan.workers .+ 1e-8)
+    @test all(plan.inventory .>= -1e-8)
+
+    costs = [
+        example.material_cost * sum(plan.produced),
+        example.wage_cost * sum(plan.workers),
+        example.overtime_cost * sum(plan.overtime_hours),
+        example.hiring_cost * sum(plan.hired),
+        example.firing_cost * sum(plan.fired),
+        example.holding_cost * sum(plan.inventory),
+    ]
+    if backlog
+        @test plan.net_inventory ≈ net_inventory atol = 1e-8
+        @test plan.inventory ≈ value.(example.L) atol = 1e-8
+        @test plan.backlog ≈ value.(example.S) atol = 1e-8
+        @test all(plan.backlog .>= -1e-8)
+        @test plan.inventory ≈ max.(net_inventory, 0) atol = 1e-8
+        @test plan.backlog ≈ max.(-net_inventory, 0) atol = 1e-8
+        @test last(plan.backlog) ≈ 0.0 atol = 1e-8
+        push!(costs, example.backlog_cost * sum(plan.backlog))
+    else
+        @test plan.inventory ≈ net_inventory atol = 1e-8
+    end
+    @test last(net_inventory) >= -1e-8
+    @test example.cost_report.dollars ≈ costs atol = 1e-6
+    @test sum(costs) ≈ example.minimum_cost atol = 1e-6
+end
+
+module ShoeCoExample end
+
+@testset "ShoeCo production planning class example" begin
+    path = joinpath(REPOSITORY_ROOT, "notebooks", "08-ShoeCo.ipynb")
+    example = execute_code_cells(ShoeCoExample, path)
+    check_shoeco_plan(example)
+    @test example.minimum_cost ≈ 692_500.0 atol = 1e-6
+    @test sum(example.plan.produced) ≈ 10_500.0 atol = 1e-8
+    @test last(example.plan.inventory) ≈ 0.0 atol = 1e-8
+
+    @testset "Lower overtime rate" begin
+        # The default plan uses no overtime. Exercise its cost and capacity here,
+        # also checking that Run All rebuilds the model in the same kernel.
+        example = execute_code_cells(ShoeCoExample, path; source_replacements = [
+            "overtime_cost = 13" => "overtime_cost = 1",
+        ])
+        check_shoeco_plan(example)
+        @test sum(example.plan.overtime_hours) > 1e-8
+        @test example.minimum_cost < 692_500.0
+    end
+end
+
+module ShoeCoBacklogExample end
+
+@testset "ShoeCo backlog class example" begin
+    path = joinpath(REPOSITORY_ROOT, "notebooks", "09-ShoeCo-backlog.ipynb")
+    example = execute_code_cells(ShoeCoBacklogExample, path)
+    check_shoeco_plan(example; backlog = true)
+    @test example.minimum_cost ≈ 690_000.0 atol = 1e-6
+    @test example.plan.backlog ≈ [0.0, 0.0, 500.0, 0.0] atol = 1e-8
+    @test sum(example.plan.produced) ≈ 10_500.0 atol = 1e-8
+    @test last(example.plan.inventory) ≈ 0.0 atol = 1e-8
+
+    @testset "Backlog penalty $(penalty)" for penalty in (100, 0)
+        example = execute_code_cells(ShoeCoBacklogExample, path; source_replacements = [
+            "backlog_cost = 20" => "backlog_cost = $(penalty)",
+        ])
+        check_shoeco_plan(example; backlog = true)
+        if penalty == 100
+            # An expensive backlog recovers the cost of the on-time plan.
+            @test example.minimum_cost ≈ 692_500.0 atol = 1e-6
+            @test all(abs.(example.plan.backlog) .<= 1e-8)
+        else
+            # Even free backlog must be cleared by the end of the horizon.
+            @test example.minimum_cost <= 690_000.0 + 1e-6
+            @test sum(example.plan.produced) ≈ 10_500.0 atol = 1e-8
+        end
+    end
+end

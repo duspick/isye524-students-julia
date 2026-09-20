@@ -154,11 +154,30 @@ The `Repository checks` workflow runs on every push and pull request. It:
 5. executes the code cells supplied in assignment starter notebooks; and
 6. runs the Julia environment and assignment-copy smoke tests.
 
-A separate lightweight job tests the assignment-copy and PDF-command helpers
-on Ubuntu, macOS, and Windows without installing the full Julia package
-environment on every runner.
+A separate lightweight job tests the assignment-copy, PDF-command, and course
+reset helpers on Ubuntu, macOS, and Windows without installing the full Julia
+package environment on every runner. Reset tests use temporary local Git
+repositories and verify backup recovery, personal-file protection, and update
+failures; they never reset the maintainer's checkout.
 
 The workflow never cleans and commits files on GitHub. A failing notebook check
 must be corrected locally and pushed again. In the repository-protection
 checkpoint, its `Julia 1.12 environment and clean notebooks` job will become a
 required status check before merging.
+
+## Where VS Code tasks are implemented
+
+[`.vscode/tasks.json`](../.vscode/tasks.json) defines the task labels, commands,
+arguments, and input prompts shown by **Tasks: Run Task**. The commands call
+Julia scripts under `scripts/`:
+
+- [`pull.jl`](../scripts/pull.jl) performs the ordinary fast-forward-only update.
+- [`reset_course.jl`](../scripts/reset_course.jl) implements the separate reset
+  task. It verifies the course remote and protected paths, fetches the published
+  version, creates the external backup, resets course files, restores personal
+  settings, and launches setup. It uses only Julia standard libraries and Git.
+- [`setup.jl`](../scripts/setup.jl) installs and precompiles the Julia environment.
+
+Run `julia --startup-file=no test/reset_course.jl` to exercise reset and recovery
+without touching your checkout. Student-facing instructions are in
+[Help with course updates](course-updates.md).

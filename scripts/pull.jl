@@ -1,4 +1,6 @@
 const REPOSITORY_ROOT = dirname(abspath(@__DIR__))
+const UPDATE_HELP_URL =
+    "https://github.com/jlinderoth/isye524-students-julia/blob/main/docs/course-updates.md"
 
 function git_command(git::String, arguments::String...)
     command = Cmd(String[git, arguments...])
@@ -33,6 +35,7 @@ function check_repository(git::String)
         )
         println()
     end
+    return tracked_changes
 end
 
 function check_upstream(git::String)
@@ -56,12 +59,12 @@ function main()
     git = Sys.which("git")
     isnothing(git) && error("Git was not found on PATH.")
 
-    check_repository(git)
+    tracked_changes = check_repository(git)
     check_upstream(git)
 
     println("Updating ISyE 524 course files with a fast-forward-only pull...")
     try
-        run(git_command(git, "pull", "--ff-only"))
+        run(git_command(git, "pull", "--ff-only", "--no-autostash"))
     catch
         println(stderr)
         println(
@@ -71,6 +74,25 @@ function main()
             "if an updated course file overlaps your work, save a separate " *
             "copy before resolving the update.",
         )
+        if occursin(".vscode/settings.json", tracked_changes)
+            println(stderr)
+            println(stderr, "Your local .vscode/settings.json has changes.")
+            println(
+                stderr,
+                "If Git lists it as blocking the update, follow the one-time " *
+                "settings migration in the guide below. Back up the file " *
+                "before restoring it, then put your settings back after the update.",
+            )
+        end
+        println(stderr)
+        println(
+            stderr,
+            "For local edits or saved notebook outputs, run 'ISyE 524: Reset " *
+            "course files to latest (with backup)' to save copies and replace " *
+            "tracked files with the published versions.",
+        )
+        println(stderr, "Step-by-step update help: ", UPDATE_HELP_URL)
+        println(stderr, "If you need help, send course staff the full task output.")
         exit(3)
     end
     println("Course files are up to date.")

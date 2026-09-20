@@ -33,6 +33,9 @@ jobs:
       - name: Test cross-platform student workflow scripts
         run: julia --startup-file=no test/platform_scripts.jl
 
+      - name: Test course reset and backup recovery
+        run: julia --startup-file=no test/reset_course.jl
+
   checks:
     name: Julia 1.12 environment and clean notebooks
     runs-on: ubuntu-latest

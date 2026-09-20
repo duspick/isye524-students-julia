@@ -223,6 +223,25 @@
       }
     },
     {
+      "label": "ISyE 524: Reset course files to latest (with backup)",
+      "type": "process",
+      "command": "julia",
+      "args": [
+        "--startup-file=no",
+        "${workspaceFolder}/scripts/reset_course.jl",
+        "${input:resetCourseConfirmation}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "clear": false,
+        "panel": "dedicated",
+        "reveal": "always"
+      }
+    },
+    {
       "label": "ISyE 524: Update course repository",
       "dependsOrder": "sequence",
       "dependsOn": [
@@ -233,6 +252,13 @@
     }
   ],
   "inputs": [
+    {
+      "id": "resetCourseConfirmation",
+      "type": "pickString",
+      "description": "Save and close notebooks first. RESET backs up local changes and replaces tracked course files. Personal work and settings are preserved.",
+      "options": ["Cancel", "RESET"],
+      "default": "Cancel"
+    },
     {
       "id": "assignmentId",
       "type": "promptString",

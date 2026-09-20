@@ -39,7 +39,7 @@ The equivalent commands, run one at a time in a VS Code terminal at the
 repository root, are:
 
 ```text
-git pull --ff-only
+julia --startup-file=no scripts/pull.jl
 julia --startup-file=no --project=. scripts/setup.jl
 julia --startup-file=no --project=. test/smoke.jl
 ```
@@ -54,9 +54,10 @@ notebook. The instructor publishes the package versions for everyone.
 
 ## If the update fails
 
-- **Git reports local changes:** preserve a separate copy of your changes and
-  ask course staff for help resolving the update. Do not delete your work or
-  run `git reset --hard`. Personal answers belong in `student-work/`.
+- **Git reports local changes:** follow
+  [Help with course updates](course-updates.md). The **Reset course files to
+  latest (with backup)** task preserves saved changes before replacing course
+  files. Personal answers belong in `student-work/`.
 - **A download fails:** restore your internet connection, then rerun **Set up /
   refresh Julia environment** and the environment check after the pull succeeds.
 - **A notebook cannot find a newly announced package:** confirm the update

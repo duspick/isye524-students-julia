@@ -24,4 +24,5 @@ tmp/
 .DS_Store
 Thumbs.db
 
-# VS Code configuration is intentionally tracked in this repository.
+# Personal VS Code settings stay local; tasks, extensions, and examples are tracked.
+/.vscode/settings.json

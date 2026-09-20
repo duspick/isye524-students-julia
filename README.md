@@ -6,9 +6,10 @@ notebook, and PDF-export workflow.
 
 The Julia environment, VS Code integration, installation checks, Gradescope PDF
 export, and Homework 0 starter material are ready. The class examples develop
-the Top Brass, McDonald's diet, alloy blending, and gasoline blending linear
-programs. Additional course notebooks and assignments will be published
-throughout the semester, so students must update the repository regularly.
+the Top Brass, McDonald's diet, alloy blending, gasoline blending, and ShoeCo
+production-planning linear programs. Additional course notebooks and assignments
+will be published throughout the semester, so students must update the repository
+regularly.
 
 ## Students: start here
 
@@ -119,8 +120,15 @@ intentional; choose **Run All** to work through every case.
 maximum element percentages.
 [notebooks/07-Blending.ipynb](notebooks/07-Blending.ipynb) maximizes daily
 gasoline profit by choosing crude purchases, blends, sales, and advertising,
-subject to capacity, demand, octane, and sulfur limits. All class examples use
-packages already included in the course environment.
+subject to capacity, demand, octane, and sulfur limits.
+[notebooks/08-ShoeCo.ipynb](notebooks/08-ShoeCo.ipynb) minimizes four months of
+production, workforce, overtime, and inventory costs while meeting demand on
+time.
+[notebooks/09-ShoeCo-backlog.ipynb](notebooks/09-ShoeCo-backlog.ipynb) extends
+that model to allow late deliveries with monthly backlog penalties, requiring
+all orders to be filled by the end of month 4. Both ShoeCo examples treat
+workforce decisions as continuous LP variables. All class examples use packages
+already included in the course environment.
 
 Files under `notebooks/` are read-only course examples. Students should run and
 study them but should not save personal work in those tracked files.
@@ -166,8 +174,8 @@ Available assignment templates are:
 - [HW00: Julia and JuMP setup](assignments/hw00/README.md), including the Julia
   tutorial and installation exercises.
 - [HW01: Convexity and introductory linear programming](assignments/hw01/README.md).
-- [HW02: LP reformulation, indexed models, and blending](assignments/hw02/README.md),
-  including the three CSV files used in Problem 2. Enter `hw02` in the
+- [HW02: LP reformulation, solution cases, and indexed models](assignments/hw02/README.md),
+  including the three CSV files used in Problem 3(d). Enter `hw02` in the
   assignment-copy task to copy the notebook and its data together.
 
 See [Assignments and PDF Submission](docs/canvas-assignment-workflow.md) for the
@@ -195,6 +203,23 @@ Work under `student-work/` is ignored by Git and is unaffected.
 If a student edits a tracked course file and an update changes the same file,
 Git stops instead of overwriting it. The task never resets or automatically
 stashes student files.
+
+If notebook outputs or local edits block an update, save and close your
+notebooks, then run **ISyE 524: Reset course files to latest (with backup)**.
+This separate recovery task backs up saved course files and Git history in a
+dated folder beside the repository, replaces tracked files with the latest
+published versions, and refreshes Julia packages. Personal work in
+`student-work/`, generated `submissions/`, and local VS Code settings are
+preserved. See [reset and backup instructions](docs/course-updates.md#reset-course-files-with-an-automatic-backup).
+
+Personal VS Code settings in `.vscode/settings.json` are ignored by Git.
+Shared tasks and extension recommendations remain tracked. Optional course
+settings are supplied in `.vscode/settings.example.json`; copy it to
+`.vscode/settings.json` if you want those defaults.
+
+If an update stops, follow [Help with course updates](docs/course-updates.md).
+Older clones may need the one-time settings migration described there before
+they can receive the change that stops tracking `.vscode/settings.json`.
 
 When an announcement adds Julia packages or solvers, follow
 [Updating course packages and solvers](docs/package-updates.md) to install the
