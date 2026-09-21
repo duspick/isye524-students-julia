@@ -75,6 +75,35 @@ end
 
 module HomeworkTwo end
 
+module HomeworkThree end
+
+@testset "Homework 3 starter notebook and student copy" begin
+    source = joinpath(REPOSITORY_ROOT, "assignments", "hw03")
+    mktempdir() do repository
+        mkpath(joinpath(repository, "assignments"))
+        cp(source, joinpath(repository, "assignments", "hw03"))
+        @test "hw03" in AssignmentWorkspace.available_assignments(repository)
+        destination = AssignmentWorkspace.start_assignment(repository, "hw03")
+        notebook = joinpath(destination, "hw03.ipynb")
+        for file in ("hw03.ipynb", "README.md")
+            @test read(joinpath(destination, file)) == read(joinpath(source, file))
+        end
+        for directory in (destination, repository)
+            cd(directory) do
+                execute_code_cells(HomeworkThree, notebook; cell_filename = "In[1]")
+            end
+        end
+
+        # Updating the template must preserve an existing student's work.
+        write(notebook, read(notebook, String) * "\n")
+        student_work = read(notebook)
+        write(joinpath(repository, "assignments", "hw03", "README.md"), "Updated instructions\n")
+        @test_throws ErrorException AssignmentWorkspace.start_assignment(repository, "hw03")
+        @test read(notebook) == student_work
+        @test read(joinpath(destination, "README.md")) == read(joinpath(source, "README.md"))
+    end
+end
+
 function check_homework_two_data(example, destination)
     @test example.data_dir == joinpath(destination, "data")
     @test length(example.P) == 5
