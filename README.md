@@ -177,6 +177,8 @@ Available assignment templates are:
 - [HW02: LP reformulation, solution cases, and indexed models](assignments/hw02/README.md),
   including the three CSV files used in Problem 3(d). Enter `hw02` in the
   assignment-copy task to copy the notebook and its data together.
+- [HW03: Blending and multiperiod planning](assignments/hw03/README.md),
+  with all data included in the notebook. Enter `hw03` in the assignment-copy task.
 
 See [Assignments and PDF Submission](docs/canvas-assignment-workflow.md) for the
 complete recurring workflow. See
