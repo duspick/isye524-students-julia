@@ -7,7 +7,9 @@ notebook, and PDF-export workflow.
 The Julia environment, VS Code integration, installation checks, Gradescope PDF
 export, and Homework 0 starter material are ready. The class examples develop
 the Top Brass, McDonald's diet, alloy blending, gasoline blending, and ShoeCo
-production-planning linear programs. Additional course notebooks and assignments
+production-planning linear programs, the Chebyshev center problem, and house
+construction scheduling.
+Additional course notebooks and assignments
 will be published throughout the semester, so students must update the repository
 regularly.
 
@@ -127,7 +129,13 @@ time.
 [notebooks/09-ShoeCo-backlog.ipynb](notebooks/09-ShoeCo-backlog.ipynb) extends
 that model to allow late deliveries with monthly backlog penalties, requiring
 all orders to be filled by the end of month 4. Both ShoeCo examples treat
-workforce decisions as continuous LP variables. All class examples use packages
+workforce decisions as continuous LP variables.
+[notebooks/10-Chebyshev.ipynb](notebooks/10-Chebyshev.ipynb) finds the center
+and radius of the largest ball inside a polyhedron using an LP, then visualizes
+the solution from four viewing angles.
+[notebooks/11-House.ipynb](notebooks/11-House.ipynb) minimizes house construction
+time subject to task precedence, identifies critical tasks and total float,
+and displays an earliest-start Gantt chart. All class examples use packages
 already included in the course environment.
 
 Files under `notebooks/` are read-only course examples. Students should run and

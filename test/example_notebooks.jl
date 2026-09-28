@@ -1,9 +1,13 @@
 using JSON
 using JuMP
 using Test
+using LinearAlgebra
 import MathOptInterface as MOI
 
 const REPOSITORY_ROOT = dirname(@__DIR__)
+
+# Render notebook plots without a display server in automated checks.
+ENV["GKSwstype"] = "100"
 
 function execute_code_cells(module_, path; source_replacements = Pair{String,String}[])
     notebook = JSON.parsefile(path)
@@ -400,5 +404,62 @@ module ShoeCoBacklogExample end
             @test example.minimum_cost <= 690_000.0 + 1e-6
             @test sum(example.plan.produced) ≈ 10_500.0 atol = 1e-8
         end
+    end
+end
+
+module ChebyshevExample end
+
+@testset "Chebyshev center class example" begin
+    path = joinpath(REPOSITORY_ROOT, "notebooks", "10-Chebyshev.ipynb")
+    example = execute_code_cells(ChebyshevExample, path)
+    @test termination_status(example.m) == MOI.OPTIMAL
+    @test is_solved_and_feasible(example.m)
+    # Twice row 1 plus row 3, with x1 >= r and x3 >= r, gives 16r <= 12.
+    @test example.radius ≈ 0.75 atol = 1e-8
+    @test example.center ≈ [0.75, 3.25, 0.75] atol = 1e-8
+    distances = (example.b - example.A * example.center) ./
+        [norm(row) for row in eachrow(example.A)]
+    @test all(distances .>= example.radius - 1e-8)
+    @test length(example.vertices) == 8
+    @test length(example.edges) == 12
+    @test all(all(example.A * vertex .<= example.b .+ 1e-8)
+        for vertex in example.vertices)
+    # Exercise the plotting backend as well as construction of all four views.
+    mktempdir() do directory
+        for (index, plot) in enumerate((example.chebyshev_plot,
+            example.side_view, example.high_view, example.low_view))
+            output = joinpath(directory, "chebyshev-$(index).png")
+            example.savefig(plot, output)
+            @test filesize(output) > 0
+        end
+    end
+end
+
+module HouseExample end
+
+@testset "House construction class example" begin
+    path = joinpath(REPOSITORY_ROOT, "notebooks", "11-House.ipynb")
+    example = execute_code_cells(HouseExample, path)
+    @test termination_status(example.m) == MOI.OPTIMAL
+    @test is_solved_and_feasible(example.m)
+    @test example.makespan ≈ 34.0 atol = 1e-8
+    @test value(example.tstart[:a]) ≈ 0.0 atol = 1e-8
+    @test example.earliest[:x] ≈ example.makespan atol = 1e-8
+    @test Set(example.critical) == Set([:a, :b, :c, :d, :j, :k, :l, :n, :s, :t, :x])
+    @test example.total_float[:m] ≈ 1.0 atol = 1e-8
+    for i in example.tasks
+        @test example.total_float[i] >= -1e-8
+        @test example.earliest[i] - 1e-8 <= value(example.tstart[i]) <= example.latest[i] + 1e-8
+        @test example.latest[i] + example.duration[i] <= example.makespan + 1e-8
+        for j in example.pred[i]
+            @test value(example.tstart[i]) >= value(example.tstart[j]) + example.duration[j] - 1e-8
+            @test example.earliest[i] >= example.earliest[j] + example.duration[j] - 1e-8
+            @test example.latest[i] >= example.latest[j] + example.duration[j] - 1e-8
+        end
+    end
+    mktempdir() do directory
+        output = joinpath(directory, "house-gantt.png")
+        example.savefig(example.gantt_plot, output)
+        @test filesize(output) > 0
     end
 end
