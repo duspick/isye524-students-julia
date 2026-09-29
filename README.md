@@ -187,6 +187,9 @@ Available assignment templates are:
   assignment-copy task to copy the notebook and its data together.
 - [HW03: Blending and multiperiod planning](assignments/hw03/README.md),
   with all data included in the notebook. Enter `hw03` in the assignment-copy task.
+- [HW04: Fitting, network flow, and project scheduling](assignments/hw04/README.md),
+  including the regression CSV for Problem 1(c). Enter `hw04` in the
+  assignment-copy task to copy the notebook and its data together.
 
 See [Assignments and PDF Submission](docs/canvas-assignment-workflow.md) for the
 complete recurring workflow. See
