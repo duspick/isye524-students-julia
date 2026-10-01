@@ -7,8 +7,8 @@ notebook, and PDF-export workflow.
 The Julia environment, VS Code integration, installation checks, Gradescope PDF
 export, and Homework 0 starter material are ready. The class examples develop
 the Top Brass, McDonald's diet, alloy blending, gasoline blending, and ShoeCo
-production-planning linear programs, the Chebyshev center problem, and house
-construction scheduling.
+production-planning linear programs, the Chebyshev center problem, house
+construction scheduling, and network flow applications.
 Additional course notebooks and assignments
 will be published throughout the semester, so students must update the repository
 regularly.
@@ -135,8 +135,19 @@ and radius of the largest ball inside a polyhedron using an LP, then visualizes
 the solution from four viewing angles.
 [notebooks/11-House.ipynb](notebooks/11-House.ipynb) minimizes house construction
 time subject to task precedence, identifies critical tasks and total float,
-and displays an earliest-start Gantt chart. All class examples use packages
-already included in the course environment.
+and displays an earliest-start Gantt chart.
+[notebooks/12-mcnf.ipynb](notebooks/12-mcnf.ipynb) introduces minimum-cost
+network flow with an eight-node shipping network and arc capacities.
+[notebooks/13-Millco.ipynb](notebooks/13-Millco.ipynb) solves a lumber
+transportation problem using indexed, matrix, and network-flow formulations.
+[notebooks/14-SwimRelay.ipynb](notebooks/14-SwimRelay.ipynb) assigns swimmers
+to relay strokes, then balances the network with a dummy unused-swimmer stroke.
+[notebooks/15-House-mcnf.ipynb](notebooks/15-House-mcnf.ipynb) finds a critical
+path for the house project using minimum-cost flow with negative task durations
+as arc costs.
+[notebooks/16-Picnic.ipynb](notebooks/16-Picnic.ipynb) maximizes the number of
+family members transported in four cars using a minimum-cost circulation.
+All class examples use packages already included in the course environment.
 
 Files under `notebooks/` are read-only course examples. Students should run and
 study them but should not save personal work in those tracked files.

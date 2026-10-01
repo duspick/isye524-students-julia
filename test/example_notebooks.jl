@@ -9,7 +9,10 @@ const REPOSITORY_ROOT = dirname(@__DIR__)
 # Render notebook plots without a display server in automated checks.
 ENV["GKSwstype"] = "100"
 
-function execute_code_cells(module_, path; source_replacements = Pair{String,String}[])
+function execute_code_cells(module_, path;
+    source_replacements = Pair{String,String}[],
+    after_cell = (example, source) -> nothing,
+)
     notebook = JSON.parsefile(path)
     @test notebook["nbformat"] == 4
     @test notebook["nbformat_minor"] == 5
@@ -34,8 +37,97 @@ function execute_code_cells(module_, path; source_replacements = Pair{String,Str
             source = replace(source, replacement)
         end
         Base.include_string(module_, source, path)
+        # Notebook cells introduce module bindings dynamically on Julia 1.12.
+        Base.invokelatest(after_cell, module_, source)
     end
     return module_
+end
+
+function check_network_flow(example, nodes, arcs; lower_bounds = nothing)
+    @test is_solved_and_feasible(example.m)
+    @test termination_status(example.m) == MOI.OPTIMAL
+    for (i, j) in arcs
+        flow = value(example.x[(i, j)])
+        lower = isnothing(lower_bounds) ? 0 : lower_bounds[i, j]
+        @test lower - 1e-8 <= flow <= example.u[i, j] + 1e-8
+        @test flow ≈ round(flow) atol = 1e-8
+    end
+    for i in nodes
+        outflow = sum((value(example.x[(i, j)]) for j in nodes if (i, j) in arcs); init = 0.0)
+        inflow = sum((value(example.x[(j, i)]) for j in nodes if (j, i) in arcs); init = 0.0)
+        @test outflow - inflow ≈ example.b[i] atol = 1e-8
+    end
+    cost = sum(example.c[i, j] * value(example.x[(i, j)]) for (i, j) in arcs)
+    @test cost ≈ objective_value(example.m) atol = 1e-8
+end
+
+module MCNFExample end
+module MillcoExample end
+module SwimRelayExample end
+module HouseMCNFExample end
+module PicnicExample end
+
+@testset "Network flow class examples" begin
+    @testset "Eight-node minimum-cost flow" begin
+        path = joinpath(REPOSITORY_ROOT, "notebooks", "12-mcnf.ipynb")
+        example = execute_code_cells(MCNFExample, path)
+        check_network_flow(example, example.nodes, example.arcs; lower_bounds = example.ℓ)
+        @test objective_value(example.m) ≈ 21.0 atol = 1e-8
+        @test value(example.x[(3, 6)]) ≈ 4.0 atol = 1e-8
+    end
+
+    @testset "Millco equivalent formulations" begin
+        path = joinpath(REPOSITORY_ROOT, "notebooks", "13-Millco.ipynb")
+        costs = Float64[]
+        example = execute_code_cells(MillcoExample, path; after_cell = (example, source) -> begin
+            if occursin("optimize!(m)", source)
+                @test is_solved_and_feasible(example.m)
+                push!(costs, objective_value(example.m))
+            end
+        end)
+        @test costs ≈ fill(5760.0, 3) atol = 1e-8
+        check_network_flow(example, example.N, example.E; lower_bounds = example.ℓ)
+    end
+
+    @testset "Swim relay and dummy assignment" begin
+        path = joinpath(REPOSITORY_ROOT, "notebooks", "14-SwimRelay.ipynb")
+        relay_times = Float64[]
+        example = execute_code_cells(SwimRelayExample, path; after_cell = (example, source) -> begin
+            if occursin("optimize!(m)", source)
+                @test is_solved_and_feasible(example.m)
+                push!(relay_times, objective_value(example.m))
+            end
+        end)
+        # Independently enumerate all choices of four distinct swimmers.
+        best_time = minimum(
+            sum(example.raw[i, swimmers[i]] for i in 1:4)
+            for swimmers in Iterators.product(ntuple(_ -> 1:5, 4)...)
+            if length(unique(swimmers)) == 4
+        )
+        @test relay_times ≈ fill(best_time, 2) atol = 1e-8
+        check_network_flow(example, example.nodes, example.arcs; lower_bounds = example.ℓ)
+        @test sum(value(example.x[(i, :unused)]) for i in example.names) ≈ 1.0 atol = 1e-8
+    end
+
+    @testset "House critical path as flow" begin
+        path = joinpath(REPOSITORY_ROOT, "notebooks", "15-House-mcnf.ipynb")
+        example = execute_code_cells(HouseMCNFExample, path)
+        check_network_flow(example, example.nodes, example.arcs; lower_bounds = example.ℓ)
+        @test -objective_value(example.m) ≈ 34.0 atol = 1e-8
+        @test all(example.c[i, j] == -example.duration[j] for (i, j) in example.arcs)
+    end
+
+    @testset "Picnic seating capacity" begin
+        path = joinpath(REPOSITORY_ROOT, "notebooks", "16-Picnic.ipynb")
+        example = execute_code_cells(PicnicExample, path)
+        check_network_flow(example, example.N, example.A)
+        @test -objective_value(example.m) ≈ 14.0 atol = 1e-8
+        @test value(example.x[(:sink, :source)]) ≈ 14.0 atol = 1e-8
+        @test all(value(example.x[(i, j)]) <= 2.0 + 1e-8
+            for i in example.families, j in example.cars)
+        @test all(isapprox(value(example.x[(j, :sink)]), example.u[j, :sink]; atol = 1e-8)
+            for j in example.cars)
+    end
 end
 
 module TopBrassExample end
