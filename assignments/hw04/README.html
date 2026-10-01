@@ -1,0 +1,77 @@
+<h1
+id="homework-04-fitting-network-flow-and-project-scheduling">Homework
+04: Fitting, network flow, and project scheduling</h1>
+<p>Due <strong>Monday, October 5, 2026, at 11:59 p.m. (Madison
+time)</strong>.</p>
+<h2 id="files-and-getting-started">Files and getting started</h2>
+<ul>
+<li><code>hw04.ipynb</code>: the assignment notebook, supplied
+data/code, and response areas.</li>
+<li><code>data/regression-large.csv</code>: the fixed 1,200-equation,
+60-coefficient instance for Problem 1(c). Keep the <code>data/</code>
+directory beside the notebook.</li>
+<li><code>README.md</code>: this overview; <code>README.html</code>
+contains the same instructions for Canvas.</li>
+</ul>
+<p>Follow <a
+href="https://github.com/jlinderoth/isye524-students-julia/blob/main/docs/canvas-assignment-workflow.md">Assignments
+and PDF Submission</a> for updating, copying, exporting, and backing up
+your work.</p>
+<p>In VS Code, use <strong>Tasks: Run Task</strong> to run <strong>ISyE
+524: Update course repository</strong>, then <strong>ISyE 524: Start an
+assignment from its template</strong>, entering
+<strong><code>hw04</code></strong>. Open
+<strong><code>student-work/hw04/hw04.ipynb</code></strong> and select
+the Julia 1.12 kernel. The task copies the complete assignment,
+including its CSV file. If your working copy already exists, open it and
+continue; it will not be overwritten. Later course updates do not
+automatically update your personal copy.</p>
+<h2 id="complete-hw04">Complete HW04</h2>
+<p>Complete all three problems:</p>
+<ol type="1">
+<li><strong>Fitting equations when they do not agree:</strong> formulate
+minimum total absolute error and minimum worst absolute error as LPs;
+solve a small instance and the larger CSV instance; compare both error
+measures for both fits.</li>
+<li><strong>Minimum-cost distribution through a network:</strong>
+formulate and solve a ten-node, sixteen-arc flow problem; report
+shipments and verify node balances and capacities.</li>
+<li><strong>Stadium building:</strong> formulate and solve for the
+minimum completion time; report a feasible start/finish schedule and a
+critical path that certifies optimality.</li>
+</ol>
+<p>The assignment uses piecewise-linear, minimax, network-flow, and
+project-scheduling material associated with Lectures 8–9. Use continuous
+variables throughout and Julia/JuMP with HiGHS. The supplied CSV-loading
+cell uses CSV.jl and DataFrames.jl from the course environment.</p>
+<p>Write each formulation before implementing it. Check the solver
+status and your solution, and explain the decisions in context. For the
+large regression instance, report the requested summaries rather than
+printing the entire matrix, model, or residual vector. All supplied
+cells run without completed answers.</p>
+<p>For every written part, type LaTeX mathematics in Markdown or insert
+a clear photograph/scan of handwritten work. Keep the answer and
+reasoning together, label subparts, and do not duplicate handwritten
+work in typed form. Implementations belong in code cells. The notebook
+explains image attachments and relative paths; see <a
+href="https://github.com/jlinderoth/isye524-students-julia/blob/main/docs/assignments.md#images-and-handwritten-work">Images
+and handwritten work</a>.</p>
+<p>AI tools may help debug your own code, explain syntax or error
+messages, and critique your work. They should not replace constructing
+your formulation, implementation, or written solution. End with the
+required <strong>collaboration and LLM-use statement</strong>: name
+collaborators and tools/models, identify the specific assistance,
+explain how it helped you learn, and describe how you checked it.
+Explicitly state if you worked alone or used no LLM.</p>
+<h2 id="submit">Submit</h2>
+<p>Run the notebook from top to bottom, check for errors, and save it
+with results visible. Export with the course PDF task appropriate to
+your TeX installation. Inspect
+<strong><code>submissions/hw04.pdf</code></strong>, including equations,
+tables, outputs, and handwritten images, then upload that <strong>single
+PDF to Gradescope</strong> and mark which PDF pages belong to each
+problem. <strong>You will not receive full marks unless you do.</strong>
+Do not submit the supplied CSV as a separate answer.</p>
+<p>Keep a separate backup of <code>student-work/hw04/</code>, including
+the notebook, CSV file, and any external images. Git does not back up
+that folder.</p>

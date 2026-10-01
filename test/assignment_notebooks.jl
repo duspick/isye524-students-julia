@@ -77,6 +77,73 @@ module HomeworkTwo end
 
 module HomeworkThree end
 
+module HomeworkFour end
+
+function check_homework_four_data(example, destination)
+    @test example.data_dir == joinpath(destination, "data")
+    @test size(example.A_small) == (8, 4)
+    @test length(example.b_small) == 8
+    @test size(example.A_large) == (1200, 60)
+    @test length(example.b_large) == 1200
+    @test example.equation_ids == collect(1:1200)
+    @test example.coefficient_columns == ["a" * lpad(i, 2, '0') for i in 1:60]
+    @test all(isfinite, example.A_large)
+    @test all(isfinite, example.b_large)
+    @test length(example.N) == 10
+    @test length(unique(example.A)) == 16
+    @test sum(values(example.b)) == 0
+    @test Set(keys(example.c)) == Set(keys(example.u)) == Set(example.A)
+    @test all(arc -> all(node -> node in example.N, arc), example.A)
+    @test all(capacity -> capacity >= 0, values(example.u))
+    @test length(example.T) == length(example.d) == length(example.pred) == 18
+    @test all(pair -> all(task -> task in example.T, pair), example.P)
+end
+
+@testset "Homework 4 starter notebook and student copy" begin
+    source = joinpath(REPOSITORY_ROOT, "assignments", "hw04")
+    mktempdir() do repository
+        mkpath(joinpath(repository, "assignments"))
+        cp(source, joinpath(repository, "assignments", "hw04"))
+        @test "hw04" in AssignmentWorkspace.available_assignments(repository)
+        template = joinpath(repository, "assignments", "hw04", "hw04.ipynb")
+        cd(repository) do
+            execute_code_cells(HomeworkFour, template; cell_filename = "In[1]")
+        end
+        Base.invokelatest(check_homework_four_data, HomeworkFour, dirname(template))
+
+        destination = AssignmentWorkspace.start_assignment(repository, "hw04")
+        notebook = joinpath(destination, "hw04.ipynb")
+        for file in ("hw04.ipynb", "README.md", "README.html",
+            joinpath("data", "regression-large.csv"))
+            @test read(joinpath(destination, file)) == read(joinpath(source, file))
+        end
+        for directory in (destination, repository)
+            cd(directory) do
+                execute_code_cells(HomeworkFour, notebook; cell_filename = "In[1]")
+            end
+            Base.invokelatest(check_homework_four_data, HomeworkFour, destination)
+        end
+
+        # Preserve saved student work when a template is updated and copied again.
+        write(notebook, read(notebook, String) * "\n")
+        student_work = read(notebook)
+        write(joinpath(dirname(template), "README.md"), "Updated instructions\n")
+        @test_throws ErrorException AssignmentWorkspace.start_assignment(repository, "hw04")
+        @test read(notebook) == student_work
+        @test read(joinpath(destination, "README.md")) == read(joinpath(source, "README.md"))
+
+        # Missing student data must fail instead of loading the template's CSV.
+        rm(joinpath(destination, "data", "regression-large.csv"))
+        for directory in (destination, repository)
+            cd(directory) do
+                @test_throws LoadError execute_code_cells(
+                    HomeworkFour, notebook; cell_filename = "In[1]",
+                )
+            end
+        end
+    end
+end
+
 @testset "Homework 3 starter notebook and student copy" begin
     source = joinpath(REPOSITORY_ROOT, "assignments", "hw03")
     mktempdir() do repository
