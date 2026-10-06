@@ -201,6 +201,9 @@ Available assignment templates are:
 - [HW04: Fitting, network flow, and project scheduling](assignments/hw04/README.md),
   including the regression CSV for Problem 1(c). Enter `hw04` in the
   assignment-copy task to copy the notebook and its data together.
+- [HW05: Shortest paths, maximum flow, and duality](assignments/hw05/README.md),
+  including the road-network CSV for Problem 1(c). Enter `hw05` in the
+  assignment-copy task to copy the notebook and its data together.
 
 See [Assignments and PDF Submission](docs/canvas-assignment-workflow.md) for the
 complete recurring workflow. See

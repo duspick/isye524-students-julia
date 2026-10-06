@@ -79,6 +79,72 @@ module HomeworkThree end
 
 module HomeworkFour end
 
+module HomeworkFive end
+
+function check_homework_five_data(example, destination)
+    @test example.road_file == joinpath(destination, "data", "roads.csv")
+    @test length(example.nodes_small) == 7
+    @test length(unique(example.arcs_small)) == 12
+    @test Set(keys(example.c_small)) == Set(example.arcs_small)
+    @test example.s_small == :S && example.t_small == :A
+    @test length(example.nodes_large) == 900
+    @test length(unique(example.arcs_large)) == 2914
+    @test Set(keys(example.c_large)) == Set(example.arcs_large)
+    @test all(arc -> all(node -> node in example.nodes_large, arc), example.arcs_large)
+    @test all(arc -> reverse(arc) in example.arcs_large, example.arcs_large)
+    @test all(cost -> isfinite(cost) && cost > 0, values(example.c_large))
+    @test example.s_large == 1 && example.t_large == 900
+    @test length(example.nodes_flow) == 6
+    @test length(unique(example.arcs_flow)) == 8
+    @test Set(keys(example.u_flow)) == Set(example.arcs_flow)
+    @test all(capacity -> isfinite(capacity) && capacity >= 0, values(example.u_flow))
+    @test example.s_flow == "s" && example.t_flow == "t"
+end
+
+@testset "Homework 5 starter notebook and student copy" begin
+    source = joinpath(REPOSITORY_ROOT, "assignments", "hw05")
+    mktempdir() do repository
+        mkpath(joinpath(repository, "assignments"))
+        cp(source, joinpath(repository, "assignments", "hw05"))
+        @test "hw05" in AssignmentWorkspace.available_assignments(repository)
+        template = joinpath(repository, "assignments", "hw05", "hw05.ipynb")
+        cd(repository) do
+            execute_code_cells(HomeworkFive, template; cell_filename = "In[1]")
+        end
+        Base.invokelatest(check_homework_five_data, HomeworkFive, dirname(template))
+
+        destination = AssignmentWorkspace.start_assignment(repository, "hw05")
+        notebook = joinpath(destination, "hw05.ipynb")
+        for file in ("hw05.ipynb", "README.md", "README.html", joinpath("data", "roads.csv"))
+            @test read(joinpath(destination, file)) == read(joinpath(source, file))
+        end
+        for directory in (destination, repository)
+            cd(directory) do
+                execute_code_cells(HomeworkFive, notebook; cell_filename = "In[1]")
+            end
+            Base.invokelatest(check_homework_five_data, HomeworkFive, destination)
+        end
+
+        # Course updates and repeated copy attempts must preserve student answers.
+        write(notebook, read(notebook, String) * "\n")
+        student_work = read(notebook)
+        write(joinpath(dirname(template), "README.md"), "Updated instructions\n")
+        @test_throws ErrorException AssignmentWorkspace.start_assignment(repository, "hw05")
+        @test read(notebook) == student_work
+        @test read(joinpath(destination, "README.md")) == read(joinpath(source, "README.md"))
+
+        # Missing personal data must fail rather than load the template's CSV.
+        rm(joinpath(destination, "data", "roads.csv"))
+        for directory in (destination, repository)
+            cd(directory) do
+                @test_throws LoadError execute_code_cells(
+                    HomeworkFive, notebook; cell_filename = "In[1]",
+                )
+            end
+        end
+    end
+end
+
 function check_homework_four_data(example, destination)
     @test example.data_dir == joinpath(destination, "data")
     @test size(example.A_small) == (8, 4)
