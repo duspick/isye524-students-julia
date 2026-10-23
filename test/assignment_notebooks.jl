@@ -81,6 +81,42 @@ module HomeworkFour end
 
 module HomeworkFive end
 
+module HomeworkSix end
+
+function check_homework_six_data(example)
+    @test Set(keys(example.c_path)) == Set(example.arcs_path)
+    @test sum(values(example.b_path)) == 0
+    @test Set(keys(example.u_flow)) == Set(example.arcs_flow)
+    @test Set(keys(example.x_given)) == Set(example.arcs_flow)
+    @test all(a -> 0 <= example.x_given[a] <= example.u_flow[a], example.arcs_flow)
+end
+
+@testset "Homework 6 starter notebook and student copy" begin
+    source = joinpath(REPOSITORY_ROOT, "assignments", "hw06")
+    template = read_notebook(joinpath(source, "hw06.ipynb"))
+    figure = only(filter(cell -> haskey(cell, "attachments"), template["cells"]))
+    @test !isempty(figure["attachments"]["maxflow.png"]["image/png"])
+    @test occursin("attachment:maxflow.png", join(figure["source"]))
+
+    mktempdir() do repository
+        mkpath(joinpath(repository, "assignments"))
+        cp(source, joinpath(repository, "assignments", "hw06"))
+        @test "hw06" in AssignmentWorkspace.available_assignments(repository)
+        destination = AssignmentWorkspace.start_assignment(repository, "hw06")
+        notebook = joinpath(destination, "hw06.ipynb")
+        for file in ("hw06.ipynb", "README.md", "README.html")
+            @test read(joinpath(destination, file)) == read(joinpath(source, file))
+        end
+        # The copied starter must work both beside the notebook and from the root.
+        for directory in (destination, repository)
+            cd(directory) do
+                execute_code_cells(HomeworkSix, notebook; cell_filename = "In[1]")
+            end
+            Base.invokelatest(check_homework_six_data, HomeworkSix)
+        end
+    end
+end
+
 function check_homework_five_data(example, destination)
     @test example.road_file == joinpath(destination, "data", "roads.csv")
     @test length(example.nodes_small) == 7
