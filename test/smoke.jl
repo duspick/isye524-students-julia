@@ -3,6 +3,7 @@ using Test
 using CSV
 using DataFrames
 using Distributions
+using Gurobi
 using HiGHS
 using Ipopt
 using JuMP

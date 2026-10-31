@@ -165,6 +165,20 @@ must be corrected locally and pushed again. In the repository-protection
 checkpoint, its `Julia 1.12 environment and clean notebooks` job will become a
 required status check before merging.
 
+The UFL example uses Gurobi, whose Julia package is included in the course
+environment. CI imports the package without opening a licensed environment and
+checks a small UFL instance with HiGHS substituted for Gurobi. It also exercises
+the optional timing cells on reduced instances. On a machine with a Gurobi
+license in its default location, run the same checks with Gurobi enabled:
+
+```bash
+ISYE524_TEST_GUROBI=true julia --startup-file=no --project=. test/example_notebooks.jl
+```
+
+This runs the UFL license-check cell and both solvers on the reduced timing
+experiment. The normal student notebook retains the 100-facility,
+100-customer instance and leaves the longer timing comparison off until enabled.
+
 ## Where VS Code tasks are implemented
 
 [`.vscode/tasks.json`](../.vscode/tasks.json) defines the task labels, commands,

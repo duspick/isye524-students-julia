@@ -83,6 +83,53 @@ module HomeworkFive end
 
 module HomeworkSix end
 
+module HomeworkSeven end
+
+function check_homework_seven_data(example)
+    for (devices, lower, upper, cost) in (
+        (example.B, example.L, example.U, example.c),
+        (example.T, example.ell, example.u, example.k),
+    )
+        @test length(devices) == 3
+        @test Set(keys(lower)) == Set(keys(upper)) == Set(keys(cost)) == Set(devices)
+        @test all(i -> 0 < lower[i] <= upper[i], devices)
+        @test all(i -> isfinite(cost[i]) && cost[i] > 0, devices)
+    end
+    @test Set(keys(example.q)) == Set(example.T)
+    @test all(j -> isfinite(example.q[j]) && example.q[j] > 0, example.T)
+    @test length(unique(example.P)) == 8
+    for data in (example.c_project, example.b_project, example.h_project)
+        @test Set(keys(data)) == Set(example.P)
+        @test all(value -> value isa Integer && value > 0, values(data))
+    end
+    @test example.budget > 0
+    @test length(example.I) == length(example.J) == 8
+    @test Set(keys(example.N)) == Set(example.I)
+    @test all(i -> i in example.N[i], example.I)
+    @test all(i -> all(j -> j in example.J, example.N[i]), example.I)
+end
+
+@testset "Homework 7 starter notebook and student copy" begin
+    source = joinpath(REPOSITORY_ROOT, "assignments", "hw07")
+    mktempdir() do repository
+        mkpath(joinpath(repository, "assignments"))
+        cp(source, joinpath(repository, "assignments", "hw07"))
+        @test "hw07" in AssignmentWorkspace.available_assignments(repository)
+        destination = AssignmentWorkspace.start_assignment(repository, "hw07")
+        notebook = joinpath(destination, "hw07.ipynb")
+        for file in ("hw07.ipynb", "README.md", "README.html")
+            @test read(joinpath(destination, file)) == read(joinpath(source, file))
+        end
+        # The copied starter must work both beside the notebook and from the root.
+        for directory in (destination, repository)
+            cd(directory) do
+                execute_code_cells(HomeworkSeven, notebook; cell_filename = "In[1]")
+            end
+            Base.invokelatest(check_homework_seven_data, HomeworkSeven)
+        end
+    end
+end
+
 function check_homework_six_data(example)
     @test Set(keys(example.c_path)) == Set(example.arcs_path)
     @test sum(values(example.b_path)) == 0
