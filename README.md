@@ -160,6 +160,9 @@ stock pipes using individual-pipe and enumerated-pattern formulations.
 [notebooks/22-TSP.ipynb](notebooks/22-TSP.ipynb) compares an assignment
 relaxation, adaptive subtour elimination, and the Miller–Tucker–Zemlin
 formulation for a ten-city traveling salesman problem.
+[notebooks/23-BranchAndBound.ipynb](notebooks/23-BranchAndBound.ipynb) walks
+through a five-node knapsack branch-and-bound tree using HiGHS LP relaxations,
+tracking global bounds and pruning by integrality, bound, and infeasibility.
 All class examples use packages included in the course environment. UFL also
 requires a Gurobi license; its opening section explains academic license setup.
 
@@ -225,6 +228,9 @@ Available assignment templates are:
   in the assignment-copy task.
 - [HW07: Integer programming models and logic](assignments/hw07/README.md),
   with all numerical data included in the notebook. Enter `hw07` in the
+  assignment-copy task.
+- [HW08: Set covering, tours, and piecewise-linear costs](assignments/hw08/README.md),
+  with all numerical data included in the notebook. Enter `hw08` in the
   assignment-copy task.
 
 See [Assignments and PDF Submission](docs/canvas-assignment-workflow.md) for the
